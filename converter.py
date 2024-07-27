@@ -34,9 +34,9 @@ def to_square_matrix(chrom_size_file: str, in_file: str, out_path: str, out_pref
 
 
 def main():
-    chrom_size_file = "/home/mohit/Documents/project/EmbedTAD/dataset/hg19.chrom.sizes"
-    in_file = "/home/mohit/Documents/project/EmbedTAD/dataset/GSE63525_GM12878_insitu_primary_30.hic"
-    out_path = "/home/mohit/Documents/project/EmbedTAD/dataset/"
+    chrom_size_file = "/home/mohit/Documents/project/EmbedTAD/data/hg19.chrom.sizes"
+    in_file = "/home/mohit/Documents/project/EmbedTAD/data/GSE63525_GM12878_insitu_primary_30.hic"
+    out_path = "/home/mohit/Documents/project/EmbedTAD/data/"
     out_prefix = "GM12878_insitu_primary_30_"
     chroms = ["1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21"]
     resols = [5000, 10000]
