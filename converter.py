@@ -4,10 +4,11 @@ import numpy as np
 from typing import List
 import logging
 import time
+import math
 
 
 def bed2mat(bed, chr_size, res=10000):
-    N = int(chr_size / res)
+    N = math.ceil(chr_size/res)
     mat = np.zeros((N, N))
     for i in range(0, len(bed), 1):
         mat[int(bed[i].binX / res), int(bed[i].binY / res)] = bed[i].counts
@@ -43,14 +44,14 @@ def to_square_matrix(chrom_size_file: str, in_file: str, out_path: str, out_pref
             print(f"File saved to: {output_file}")
             logger.info(f"File saved to: {output_file}")
             total_running_time = round(time.time() - start_time, 2)
-            print(f"Total time taken: {output_file}")
-            logger.info(f"Total time taken: {output_file}")
+            print(f"Total time taken: {total_running_time}")
+            logger.info(f"Total time taken: {total_running_time}")
 
 
 def main(logger):
     chrom_size_file = "/home/mohit/Documents/project/EmbedTAD/data/hg19.chrom.sizes"
     in_file = "/home/mohit/Documents/project/EmbedTAD/data/GSE63525_GM12878_insitu_primary_30.hic"
-    out_path = "/home/mohit/Documents/project/EmbedTAD/data/"
+    out_path = "/home/mohit/Documents/project/EmbedTAD/data/data/"
     out_prefix = "GM12878_insitu_primary_30_"
     chroms = ["1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21"]
     resols = [5000, 10000]
@@ -68,7 +69,7 @@ def base_logger(filepath, filename):
 
 if __name__ == "__main__":
     logger = base_logger(
-        "/home/mohit/Documents/project/EmbedTAD/data/", "data_converter")
-    logger.info('______Starting Conversion______')
+        "/home/mohit/Documents/project/EmbedTAD/data/data/", "data_converter")
+    logger.info("______Starting Conversion______")
     main(logger=logger)
-    logger.info('______End Conversion______')
+    logger.info("______End Conversion______")
