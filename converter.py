@@ -44,8 +44,8 @@ def to_square_matrix(chrom_size_file: str, in_file: str, out_path: str, out_pref
             print(f"File saved to: {output_file}")
             logger.info(f"File saved to: {output_file}")
             total_running_time = round(time.time() - start_time, 2)
-            print(f"Total time taken: {total_running_time}")
-            logger.info(f"Total time taken: {total_running_time}")
+            print(f"Total time (seconds) taken: {total_running_time}")
+            logger.info(f"Total time (seconds) taken: {total_running_time}")
 
 
 def main(logger):
