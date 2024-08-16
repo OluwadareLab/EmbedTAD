@@ -1,7 +1,7 @@
 from et_logger import *
 from embed_tad import *
 
-RESOLUTIONS = [5000, 10000]
+RESOLUTIONS = [10000]
 CHROMOSOMS = [21]
 
 PREFIX = "GM12878_insitu_primary_30_"
