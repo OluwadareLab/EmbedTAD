@@ -100,24 +100,28 @@ def main():
     # chr_size_file = "/home/mohit/Documents/project/project_drew/hg19.chrom.sizes"
     # chr_sizes = pd.read_csv(chr_size_file, delimiter='\t', header=None)
     # avg_peaks = get_average_peaks(tads=tads, ref_file=ctcf_refs,
-    #                               chr_sizes=chr_sizes, chr="chr19", resol=10000, window=0)
-    
-    tad_file = "/home/mohit/Documents/project/project_drew/chr_19.bed"
+    #                               chr_sizes=chr_sizes, chr="chr21", resol=10000, window=0)
+
+    tad_file = "/home/mohit/Documents/project/project_drew/data/chr_19.bed"
     tads = pd.read_csv(tad_file, delimiter="\t", header=None)
     tads = tads.iloc[:, [0, 1]]
     tads.columns = ["start", "end"]
-    ref_file = "/home/mohit/Documents/project/project_drew/h1/ctcf/wgEncodeBroadChipSeqPeaksH1hescCtcf.txt"
+    # ref_file = "/home/mohit/Documents/project/project_drew/data/wgEncodeAwgTfbsBroadH1hescCtcfUniPk.txt"
+    ref_file = "/home/mohit/Documents/project/project_drew/data/wgEncodeAwgTfbsHaibH1hescPol2V0416102UniPk.txt"
+    # ref_file = "/home/mohit/Documents/project/project_drew/data/wgEncodeBroadHistoneH1hescH3k27acStdPk.txt"
+    # ref_file = "/home/mohit/Documents/project/project_drew/data/wgEncodeBroadHistoneH1hescH3k4me1StdPk.txt"
+    # ref_file = "/home/mohit/Documents/project/project_drew/data/wgEncodeBroadHistoneH1hescH3k4me3StdPk.txt"
     ctcf_refs = pd.read_csv(ref_file, delimiter="\t", header=None)
-    chr_size_file = "/home/mohit/Documents/project/project_drew/hg19.chrom.sizes"
+    chr_size_file = "/home/mohit/Documents/project/project_drew/data/hg19.chrom.sizes"
     chr_sizes = pd.read_csv(chr_size_file, delimiter='\t', header=None)
     avg_peaks = get_average_peaks(tads=tads, ref_file=ctcf_refs,
                                   chr_sizes=chr_sizes, chr="chr19", resol=40000)
-    
+
     plt.plot(avg_peaks["pixel"], avg_peaks["count"])
     plt.xlabel("Distance from TAD boundary")
-    plt.ylabel("Average CTCF peaks par bin (40Kb)")
-    plt.title("Average CTCF Peaks (hESC chr19)")
-    plt.savefig("/home/mohit/Documents/project/project_drew/h1_hesc_chr_19_average_ctcf_peaks.png",
+    plt.ylabel("Average RNA polymerase II peaks per bin (40Kb)")
+    plt.title("Average RNA polymerase II Peaks (H1 hESC chr19)")
+    plt.savefig("/home/mohit/Documents/project/project_drew/results/h1_hesc_40000_chr19_average_polii_peaks.png",
                 dpi=200, bbox_inches="tight")
 
 
