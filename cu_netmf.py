@@ -1,8 +1,11 @@
 import numpy as np
-import networkx as nx
+# import networkx as nx
+import cugraph
+import cupy as cp
 from scipy import sparse
 from sklearn.decomposition import TruncatedSVD
-from karateclub.estimator import Estimator
+from cu_estimator import Estimator
+import utils
 
 
 class NetMF(Estimator):
@@ -44,15 +47,16 @@ class NetMF(Estimator):
         Return types:
             * **D_inverse** *(Scipy array)* - Diagonal inverse degree matrix.
         """
-        index = np.arange(graph.number_of_nodes())
+        index = np.arange(graph.number_of_vertices())
+        g_degrees = graph.degree()
         values = np.array(
-            [1.0 / graph.degree[node] for node in range(graph.number_of_nodes())]
+            [1.0/g_degrees[g_degrees['vertex'] == node]['degree'].iloc[0] for node in range(graph.number_of_vertices())]
         )
-        shape = (graph.number_of_nodes(), graph.number_of_nodes())
+        shape = (graph.number_of_vertices(), graph.number_of_vertices())
         D_inverse = sparse.coo_matrix((values, (index, index)), shape=shape)
         return D_inverse
 
-    def _create_base_matrix(self, graph):
+    def _create_base_matrix(self, graph: cugraph.Graph):
         """
         Creating the normalized adjacency matrix.
 
@@ -62,8 +66,8 @@ class NetMF(Estimator):
         Return types:
             * **(A_hat, A_hat, A_hat, D_inverse)** *(SciPy arrays)* - Normalized adjacency matrices.
         """
-        A = nx.adjacency_matrix(graph, nodelist=range(graph.number_of_nodes()))
-        D_inverse = self._create_D_inverse(graph)
+        A = cp.asnumpy(utils.get_adjacency_matrix(graph=graph))
+        D_inverse = self._create_D_inverse(graph).toarray()
         A_hat = D_inverse.dot(A)
         return (A_hat, A_hat, A_hat, D_inverse)
 
@@ -104,7 +108,7 @@ class NetMF(Estimator):
         embedding = svd.transform(target_matrix)
         return embedding
 
-    def fit(self, graph: nx.classes.graph.Graph):
+    def fit(self, graph: cugraph.Graph):
         """
         Fitting a NetMF model.
 

@@ -1,5 +1,5 @@
 from et_logger import *
-from embed_tad import *
+from cu_embed_tad import *
 
 RESOLUTIONS = [10000]
 CHROMOSOMS = [21]
@@ -12,8 +12,7 @@ for resol in RESOLUTIONS:
     for chr in CHROMOSOMS:
         input = MATRIX_FILEPATH + PREFIX + \
             str(resol) + "_chr" + str(chr)+".mat"
-        output_file = OUTPUT_FILEPATH + "cpu_" + \
-            PREFIX + str(resol) + "_chr" + str(chr)
+        output_file = OUTPUT_FILEPATH + "cu_" +  PREFIX + str(resol) + "_chr" + str(chr)
         logger = base_logger(output_file)
         clustering(logger=logger, input_file=input,
                    resolution=resol, output_file=output_file)

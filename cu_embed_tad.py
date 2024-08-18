@@ -3,14 +3,14 @@ import numpy as np
 from sklearn.cluster import HDBSCAN
 import pandas as pd
 from itertools import groupby
-from netmf import NetMF
+from cu_netmf import NetMF
 import time
-import networkx as nx
 from scipy.ndimage import gaussian_filter
 from tad_writers import *
 from tad_scores import *
 from tad_plots import *
 from et_logger import *
+import cugraph as cg
 
 SIGMA = 1.0
 DIMENSION = 455
@@ -22,10 +22,19 @@ METRICS = "euclidean"
 MIN_TAD_SIZE = 100000
 MAX_TAD_SIZE = 5000000
 
+
 def clustering(logger, input_file, resolution, output_file):
     logger.info(f"Reading {input_file}")
     print(f"Reading {input_file}")
     X = np.loadtxt(input_file)
+
+#     X = np.array([
+#     [0, 1, 0, 1, 0],
+#     [1, 0, 1, 1, 0],
+#     [0, 1, 0, 0, 1],
+#     [1, 1, 0, 0, 1],
+#     [0, 0, 1, 1, 0]
+# ])
 
     logger.info(f"Applying Gaussian filter...")
     print(f"Applying Gaussian filter...")
@@ -41,10 +50,19 @@ def clustering(logger, input_file, resolution, output_file):
     now = time.time()
     logger.info(f"Creating graph...")
     print(f"Creating graph...")
-
-    print("Creating Graph from matrix")
-    G = nx.from_numpy_array(X)
-
+    # x_df = pd.DataFrame(X)
+    # src, dest = np.where(x_df.to_numpy() != 0)
+    # weights = x_df.values[src, dest]
+    # edges_df = pd.DataFrame({
+    #     's': src,
+    #     'd': dest,
+    #     'w': weights
+    # })
+    # print(f"{edges_df.head(2)}")
+    print("Creating Graph from Pandas DataFrame edgelist...", flush=True, end="")
+    G = cg.from_numpy_array(X)
+    # G = cg.from_pandas_edgelist(edges_df, source="s", destination="d",
+    #                             edge_attr="w", create_using=cg.Graph(directed=False))
     graph_time = round(time.time() - now, 2)
     logger.info(f"Total time to create graph: {graph_time} seconds")
     print(f"Total time to embed: {graph_time} seconds")
