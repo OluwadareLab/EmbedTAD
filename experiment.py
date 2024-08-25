@@ -18,4 +18,4 @@ for i in range(0, 2, 1):
                 str(resol) + "_chr" + str(chr)
             logger = log.base_logger(output_file)
             cuda_pip.clustering(logger=logger, input_file=input,
-                                resol=resol, output_file=output_file, normalization=False)
+                                resol=resol, output_file=output_file, norm=True)

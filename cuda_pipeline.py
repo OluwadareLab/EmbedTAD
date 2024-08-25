@@ -25,7 +25,7 @@ MAX_TAD_SIZE = 5000000
 DRAW_TADS_COUNTS = 5
 
 
-def clustering(logger, input_file, resol, output_file, norm: bool = False):
+def clustering(logger, input_file, resol, output_file, norm: bool = True):
     clustering_start_time = time.time()
 
     MIN_BINS = int(math.ceil(MIN_TAD_SIZE/resol))

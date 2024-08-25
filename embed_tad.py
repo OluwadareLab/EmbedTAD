@@ -16,9 +16,9 @@ def arg_parser():
     parser.add_argument("-o", "--output", dest="output", type=str,
                         required=True, help="REQUIRED: Output file")
     parser.add_argument("-w", "--worker", dest="worker", type=str,
-                        required=False, help="OPTIONAL: Worker (Option: CPU, GPU), Default: CPU")
+                        required=False, help="OPTIONAL: Worker (Option: CPU, GPU), Default: GPU")
     parser.add_argument("-n", "--normalization", dest="normalization", type=str,
-                        required=False, help="OPTIONAL: Normalization (Option: True, False), Default: False")
+                        required=False, help="OPTIONAL: Normalization (Option: True, False), Default: True")
     return parser.parse_args()
 
 
@@ -39,11 +39,11 @@ def main():
         print("Provide output file")
         sys.exit(2)
 
-    worker = "cpu"
+    worker = "gpu"
     if args.worker:
         worker = str(args.worker).lower
 
-    norm = False
+    norm = True
     if args.normalization:
         norm = args.normalization
 
@@ -55,7 +55,7 @@ def main():
             logger.info(f"Worker: CPU")
             print(f"Worker: CPU")
             _pip.clustering(logger=logger, input_file=input_file,
-                           resol=resol, output_file=output_file, norm=norm)
+                            resol=resol, output_file=output_file, norm=norm)
         else:
             logger.info(f"Worker: GPU")
             print(f"Worker: GPU")
