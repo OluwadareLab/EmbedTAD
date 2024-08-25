@@ -4,7 +4,7 @@ import cugraph
 import cupy as cp
 from scipy import sparse
 from sklearn.decomposition import TruncatedSVD
-from cu_estimator import Estimator
+from cuda_estimator import Estimator
 import utils
 
 
@@ -47,12 +47,25 @@ class NetMF(Estimator):
         Return types:
             * **D_inverse** *(Scipy array)* - Diagonal inverse degree matrix.
         """
-        index = np.arange(graph.number_of_vertices())
-        g_degrees = graph.degree()
-        values = np.array(
-            [1.0/g_degrees[g_degrees['vertex'] == node]['degree'].iloc[0] for node in range(graph.number_of_vertices())]
-        )
-        shape = (graph.number_of_vertices(), graph.number_of_vertices())
+        offsets, indices, weights = graph.view_adj_list()
+        num_vertices = offsets.size - 1
+        g_degrees = graph.in_degree()
+        vertices = g_degrees.vertex.values
+        degrees = g_degrees.degree.values
+
+        values = cp.zeros(num_vertices)
+        for node in range(num_vertices):
+            di = cp.where(vertices == node)[0]
+            if len(di) > 0:
+                degree_index = di[0]
+                values[node] = 1.0 / degrees[degree_index]
+        values = cp.asnumpy(values)
+                        
+        # values = np.array(
+        #     [1.0/g_degrees[g_degrees['vertex'] == node]['degree'].iloc[0] for node in range(graph.number_of_vertices())]
+        # )
+        index = np.arange(num_vertices)
+        shape = (num_vertices, num_vertices)
         D_inverse = sparse.coo_matrix((values, (index, index)), shape=shape)
         return D_inverse
 

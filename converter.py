@@ -46,30 +46,3 @@ def to_square_matrix(chrom_size_file: str, in_file: str, out_path: str, out_pref
             total_running_time = round(time.time() - start_time, 2)
             print(f"Total time (seconds) taken: {total_running_time}")
             logger.info(f"Total time (seconds) taken: {total_running_time}")
-
-
-def main(logger):
-    chrom_size_file = "/home/mohit/Documents/project/EmbedTAD/data/hg19.chrom.sizes"
-    in_file = "/home/mohit/Documents/project/EmbedTAD/data/GSE63525_GM12878_insitu_primary_30.hic"
-    out_path = "/home/mohit/Documents/project/EmbedTAD/data/data/"
-    out_prefix = "GM12878_insitu_primary_30_"
-    chroms = ["1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21"]
-    resols = [5000, 10000]
-    to_square_matrix(chrom_size_file=chrom_size_file, in_file=in_file, out_path=out_path,
-                     out_prefix=out_prefix, chroms=chroms, resols=resols, logger=logger)
-
-
-def base_logger(filepath, filename):
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(filename=filepath+filename+".log", format="%(asctime)s %(levelname)s: %(message)s",
-                        datefmt="%Y-%m-%d %H:%M:%S", level=logging.DEBUG)
-
-    return logger
-
-
-if __name__ == "__main__":
-    logger = base_logger(
-        "/home/mohit/Documents/project/EmbedTAD/data/data/", "data_converter")
-    logger.info("______Starting Conversion______")
-    main(logger=logger)
-    logger.info("______End Conversion______")

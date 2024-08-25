@@ -10,3 +10,5 @@ HPTAD
 HPTAD/*
 ./HPTAD
 ./HPTAD/*
+*.log
+./*.log
