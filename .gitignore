@@ -12,3 +12,5 @@ HPTAD/*
 ./HPTAD/*
 *.log
 ./*.log
+*.png
+./*.png
