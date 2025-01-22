@@ -33,7 +33,7 @@ We recommand to use Python 3.12 and the following packages with the mentioned ve
 * tqdm==4.65.0
 * seaborn==0.13.2
 
-Optional: for converting *.hic/.cool* files into n \times n matrix.
+Optional: for converting *.hic/.cool* files into nXn matrix.
 * hic-straw==1.3.1
 * cooler==0.10.3
 
@@ -89,7 +89,7 @@ We recommand to use Python 3.12 and the following packages with the mentioned ve
 * seaborn==0.13.2
 * networkx==3.4.2
 
-Optional: for converting *.hic/.cool* files into n \times n matrix.
+Optional: for converting *.hic/.cool* files into nXn matrix.
 * hic-straw==1.3.1
 * cooler==0.10.3
 
@@ -136,8 +136,8 @@ Optional: for converting *.hic/.cool* files into n \times n matrix.
 
 ## Run EmbedTAD
 ### Parameters
-* -i or --input: n\timesn matrix file (Required). 
-* -r or --resolution: Resolution of the n \times n matrix such as 5000 for 5Kb, 10000 for 10Kb (Required).
+* -i or --input: nXn matrix file (Required). 
+* -r or --resolution: Resolution of the nXn matrix such as 5000 for 5Kb, 10000 for 10Kb (Required).
 * -o or --output: output file name without extension (Required).
 * -w or --worker: which version you want to use (OPTIONAL). Available option: CPU, GPU. Default: GPU
 * -n or --normalization: if you want to normalize your input matrix with Gaussian Filter (OPTIONAL). Available option: True, False. Default: True
