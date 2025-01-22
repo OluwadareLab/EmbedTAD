@@ -17,4 +17,7 @@ HPTAD/*
 *.jpg
 *.csv
 *.xlsx
-code
+./*/*.jpg
+./*/*.csv
+./*/*.xlsx
+./__pycache__/*.py
