@@ -5,6 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8 \
     PYTHONUNBUFFERED=1
 
+# Install system dependencies and build tools
 RUN apt-get update && apt-get install -y \
     git \
     wget \
@@ -22,10 +23,10 @@ RUN apt-get update && apt-get install -y \
     liblzma-dev \
     tk-dev \
     uuid-dev \
-    software-properties-common \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install required dependencies and download Python
+# Install Python 3.12 from source
 RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz && \
     tar xzf Python-3.12.0.tgz && \
     cd Python-3.12.0 && \
@@ -35,23 +36,29 @@ RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz && \
     cd .. && \
     rm -rf Python-3.12.0 Python-3.12.0.tgz
 
-# Install distutils for Python 3.12
-RUN apt-get update && apt-get install -y python3.12-distutils
-
-# Set Python 3.12 as default
+# Set python3.12 as the default Python version
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.12 1 && \
     update-alternatives --config python3 --skip-auto
 
-# Upgrade pip and install packages
-RUN python3 -m ensurepip && python3 -m pip install --upgrade pip
+# Manually install distutils using a setup tool
+# RUN curl -O https://files.pythonhosted.org/packages/py3/d/distutils/distutils-3.12.0.tar.gz && \
+#     tar -xzvf distutils-3.12.0.tar.gz && \
+#     cd distutils-3.12.0 && \
+#     python3.12 setup.py install && \
+#     cd .. && \
+#     rm -rf distutils-3.12.0 distutils-3.12.0.tar.gz
 
-# Clone the repository
+# Upgrade pip and setuptools
+RUN python3 -m ensurepip && python3 -m pip install --upgrade pip setuptools
+
+# Clone the Git repository
 ARG REPO_URL=https://github.com/OluwadareLab/EmbedTAD.git
 RUN git clone $REPO_URL /workspace
 
+# Set the working directory
 WORKDIR /workspace
 
-# Install CUDA toolkit and libraries
+# Install CUDA toolkit and other necessary dependencies
 RUN apt-get update && apt-get install -y \
     cuda-toolkit-12-4 \
     cuda-cudart-12-4 \
@@ -61,9 +68,11 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Python requirements
-RUN if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+# Install required Python packages
+# RUN if [ -f "requirements.txt" ]; then python3 -m pip install -r requirements.txt; fi
 
+# Set the home directory
 ENV HOME=/workspace
 
+# Default command
 CMD ["/bin/bash"]

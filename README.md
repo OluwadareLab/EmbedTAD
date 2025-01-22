@@ -22,20 +22,18 @@ Email: ooluwada@uccs.edu <br>
 #### Required packages
 We recommand to use Python 3.12 and the following packages with the mentioned version.
 
-* cupy-cuda12x
+* cupy-cuda12x==13.3.0
 * cugraph-cu12 --extra-index-url=https://pypi.nvidia.com
-* tqdm==4.65.0
-* networkx==3.4.2
 * pandas==2.0.3
-* numpy==1.24.4
 * scipy==1.15.1
 * scikit-learn==1.6.1
+* tqdm==4.65.0
 * seaborn==0.13.2
+* networkx==3.4.2
 
 Optional: for converting *.hic/.cool* files into nXn matrix.
 * hic-straw==1.3.1
 * cooler==0.10.3
-
 
 #### Pip
 1. First clone the git repository
@@ -67,7 +65,7 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
         ```
 2. Run the EmbedTAD container and mount the present working directory to the container using 
    ```
-   docker run --rm --gpus all -itd --name embedtad -v ${PWD}:${PWD} oluwadarelab/embedtad:latest
+   docker run -itd --gpus all --privileged -v ${PWD}:${PWD} --name embedtad embedtad
    ```
 3. Enter into EmbedTAD container using 
    ```
