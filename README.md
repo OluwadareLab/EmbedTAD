@@ -1,8 +1,8 @@
 # EmbedTAD
 ***
-#### [OluwadareLab, University of Colorado, Colorado Springs](https://uccs-bioinformatics.com/)
+### [OluwadareLab, University of Colorado, Colorado Springs](https://uccs-bioinformatics.com/)
 ***
-#### Developers:
+### Developers:
 
 H M A Mohit Chowdhury<br>
 Department of Computer Science<br>
@@ -10,7 +10,7 @@ University of Colorado Colorado Springs<br>
 Email: hchowdhu@uccs.edu<br>
 <br>
 
-#### Contact:
+### Contact:
 
 Dr. Oluwatosin Oluwadare <br>
 Department of Computer Science <br>
@@ -18,8 +18,8 @@ University of Colorado, Colorado Springs <br>
 Email: ooluwada@uccs.edu <br>
 ***
 
-
-#### Required packages
+# GPU
+## Required packages
 We recommand to use Python 3.12 and the following packages with the mentioned version.
 
 * cupy-cuda12x==13.3.0
@@ -29,13 +29,12 @@ We recommand to use Python 3.12 and the following packages with the mentioned ve
 * scikit-learn==1.6.1
 * tqdm==4.65.0
 * seaborn==0.13.2
-* networkx==3.4.2
 
 Optional: for converting *.hic/.cool* files into nXn matrix.
 * hic-straw==1.3.1
 * cooler==0.10.3
 
-#### Pip
+### Pip
 1. First clone the git repository
    ```
    git clone https://github.com/OluwadareLab/EmbedTAD.git
@@ -46,7 +45,7 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
    pip install -r requirements.txt
    ``` 
 
-#### Docker
+### Docker
 1. You can build EmbedTAD docker image locally or you can pull form our remote Repository
     * Build image in local
         1. Clone git repository
@@ -70,9 +69,61 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
 3. Enter into EmbedTAD container using 
    ```
    docker exec -it embedtad bash
+   ```
+
+# CPU
+## Required packages
+We recommand to use Python 3.12 and the following packages with the mentioned version.
+
+* pandas
+* scipy==1.15.1
+* scikit-learn==1.6.1
+* tqdm==4.65.0
+* seaborn==0.13.2
+* networkx==3.4.2
+
+Optional: for converting *.hic/.cool* files into nXn matrix.
+* hic-straw==1.3.1
+* cooler==0.10.3
+
+### Pip
+1. First clone the git repository
+   ```
+   git clone https://github.com/OluwadareLab/EmbedTAD.git
+   cd EmbedTAD
+   ```
+2. Run the following command to install all the pip packages..
+   ```
+   pip install -r requirements.cpu..txt
    ``` 
 
-#### Parameters
+### Docker
+1. You can build EmbedTAD docker image locally or you can pull form our remote Repository
+    * Build image in local
+        1. Clone git repository
+        ```
+        git clone https://github.com/OluwadareLab/EmbedTAD.git
+        cd EmbedTAD
+        ```
+        2. Build docker image 
+        ```
+        docker build -t embedtad:cpu .
+        ```
+    * Clone image from remote
+        1. Clone EmbedTAD image from our docker repository
+        ```
+        docker pull oluwadarelab/embedtad:cpu
+        ```
+2. Run the EmbedTAD container and mount the present working directory to the container using 
+   ```
+   docker run -itd -v ${PWD}:${PWD} --name embedtad_cpu embedtad:cpu
+   ```
+3. Enter into EmbedTAD container using 
+   ```
+   docker exec -it embedtad_cpu bash
+   ``` 
+
+# Parameters
 * -i or --input: nxn matrix file. (Required)
 * -r or --resolution: Resolution of the nxn matrix such as 5000 for 5Kb, 10000 for 10Kb (Required)
 * -o or --output: output file name without extension (Required)
@@ -84,7 +135,7 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
 python3 embedtad.py --input input_matrix.txt --output output --resolution 10000 --worker GPU --normalization True
 ```
 
-##### Example with our provided data:
+## Example with our provided data:
 ```
 cd test
 unzip gm12878_10k_chr21.txt.zip
@@ -111,8 +162,3 @@ cd test
 
 * *_tq.txt file contains TAD Quality score
 * *.png file is the visualizstion of first few TADs as follows
-![heatmap](./test/test_heatmap.png)
-
-
-
-

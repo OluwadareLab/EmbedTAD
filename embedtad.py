@@ -2,8 +2,6 @@ import argparse
 import os
 import sys
 import logger as log
-import cuda_pipeline as cuda_pip
-import pipeline as _pip
 import warnings
 warnings.simplefilter(action='ignore')
 
@@ -55,11 +53,13 @@ def main():
         if worker == "cpu":
             logger.info(f"Worker: CPU")
             print(f"Worker: CPU")
+            import pipeline as _pip
             _pip.clustering(logger=logger, input_file=input_file,
                             resol=resol, output_file=output_file, norm=norm)
         else:
             logger.info(f"Worker: GPU")
             print(f"Worker: GPU")
+            import cuda_pipeline as cuda_pip
             cuda_pip.clustering(logger=logger, input_file=input_file,
                                 resol=resol, output_file=output_file, norm=norm)
     except Exception as ex:
