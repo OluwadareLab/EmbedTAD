@@ -1,8 +1,6 @@
 name: embedtad_cpu
 channels:
-  - rapidsai
   - conda-forge
-  - nvidia
   - defaults
 dependencies:
   - python=3.12
