@@ -27,7 +27,7 @@ We recommand to use Python 3.12 and the following packages with the mentioned ve
 
 * cupy-cuda12x==13.3.0
 * cugraph-cu12 --extra-index-url=https://pypi.nvidia.com
-* pandas==2.0.3
+* pandas
 * scipy==1.15.1
 * scikit-learn==1.6.1
 * tqdm==4.65.0
@@ -114,7 +114,7 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
    git clone https://github.com/OluwadareLab/EmbedTAD.git
    cd EmbedTAD
    ```
-2. Run the following command to install all the pip packages..
+2. Run the following command to install all the pip packages.
    ```
    python3 -m pip install -r requirements.cpu.txt
    ``` 
