@@ -21,3 +21,7 @@ HPTAD/*
 ./*/*.csv
 ./*/*.xlsx
 ./__pycache__/*.py
+csv
+xlsx
+jpg
+png
