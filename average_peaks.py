@@ -1,5 +1,7 @@
 import pandas as pd
 import math
+import warnings
+warnings.simplefilter(action='ignore')
 
 
 def get_average_peaks(tads: pd.DataFrame, ref_file: pd.DataFrame, chr_sizes: pd.DataFrame, chr: str, resol: int, window: int = 0):

@@ -3,6 +3,8 @@ import networkx as nx
 from scipy import sparse
 from sklearn.decomposition import TruncatedSVD
 from estimator import Estimator
+import warnings
+warnings.simplefilter(action='ignore')
 
 
 class NetMF(Estimator):

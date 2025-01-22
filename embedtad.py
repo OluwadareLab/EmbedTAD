@@ -4,7 +4,8 @@ import sys
 import logger as log
 import cuda_pipeline as cuda_pip
 import pipeline as _pip
-
+import warnings
+warnings.simplefilter(action='ignore')
 
 def arg_parser():
     parser = argparse.ArgumentParser(prog='PROG',

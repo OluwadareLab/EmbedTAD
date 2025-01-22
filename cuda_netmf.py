@@ -6,6 +6,8 @@ from scipy import sparse
 from sklearn.decomposition import TruncatedSVD
 from cuda_estimator import Estimator
 import utils
+import warnings
+warnings.simplefilter(action='ignore')
 
 
 class NetMF(Estimator):

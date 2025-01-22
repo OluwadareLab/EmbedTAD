@@ -1,5 +1,7 @@
 import cupy as cp
 import cugraph
+import warnings
+warnings.simplefilter(action='ignore')
 
 def get_adjacency_matrix(graph: cugraph.Graph):
     offsets, indices, weights = graph.view_adj_list()

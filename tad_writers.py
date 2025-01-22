@@ -1,5 +1,7 @@
 import os
 import csv
+import warnings
+warnings.simplefilter(action='ignore')
 
 def init_csv_file(file, headers):
     if not os.path.exists(file):

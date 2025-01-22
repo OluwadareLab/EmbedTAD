@@ -1,22 +1,67 @@
-FROM ubuntu:20.04
+# Base image with Ubuntu 20.04 and CUDA 12.4.1 support
+FROM nvidia/cuda:12.4.1-base-ubuntu20.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/Denver
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    PYTHONUNBUFFERED=1
 
+# Update and install dependencies
 RUN apt-get update && apt-get install -y \
-    software-properties-common \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update && apt-get install -y \
-	&& apt-get install libcurl4-openssl-dev -y \
-    python3.8 \
-    python3.8-venv \
-    python3.8-dev \
-    python3-pip \
-    && apt-get clean \
+    git \
+    wget \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libncurses5-dev \
+    libgdbm-dev \
+    libnss3-dev \
+    liblzma-dev \
+    tk-dev \
+    uuid-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/bin/python3.8 /usr/bin/python
-RUN python3.8 -m pip install --upgrade pip
-WORKDIR /embedtad
-COPY . /embedtad
-RUN pip install --no-cache-dir -r requirements.txt
+# Download and build Python 3.12 from source
+RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz && \
+    tar xzf Python-3.12.0.tgz && \
+    cd Python-3.12.0 && \
+    ./configure --enable-optimizations && \
+    make -j$(nproc) && \
+    make altinstall && \
+    cd .. && \
+    rm -rf Python-3.12.0 Python-3.12.0.tgz
+
+# Set Python 3.12 as default
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.12 1 && \
+    update-alternatives --config python3 --skip-auto
+
+# Upgrade pip
+RUN python3 -m ensurepip && python3 -m pip install --upgrade pip
+
+# Clone the Git repository
+ARG REPO_URL=https://github.com/OluwadareLab/EmbedTAD.git
+RUN git clone $REPO_URL /workspace
+
+# Set the working directory
+WORKDIR /workspace
+
+# Install Full CUDA Toolkit
+RUN apt-get update && apt-get install -y \
+    cuda-toolkit-12-4 \
+    cuda-cudart-12-4 \
+    cuda-libraries-12-4 \
+    cuda-nvml-dev-12-4 \
+    cuda-driver-dev-12-4 && \
+    libcurl4-openssl-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the directory as home
+ENV HOME=/workspace
+
+# Default command
+CMD ["/bin/bash"]

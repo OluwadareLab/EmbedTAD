@@ -1,4 +1,6 @@
 import logging
+import warnings
+warnings.simplefilter(action='ignore')
 
 
 def base_logger(file):

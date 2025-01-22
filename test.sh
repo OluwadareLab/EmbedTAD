@@ -1,0 +1,2 @@
+unzip -d ./test/gm12878_10k_chr21.txt.zip
+python3 embedtad.py --input ./test/gm12878_combined_10000_chr21.txt --output ./test/embedtad_gm12878_combined_10000_chr21 --resolution 10000 --worker GPU --normalization True

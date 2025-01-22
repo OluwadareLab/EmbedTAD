@@ -7,6 +7,8 @@ import random
 import numpy as np
 import networkx as nx
 from tqdm.auto import trange
+import warnings
+warnings.simplefilter(action='ignore')
 
 
 class Estimator(object):

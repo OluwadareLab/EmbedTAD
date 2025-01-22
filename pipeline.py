@@ -9,6 +9,8 @@ from itertools import groupby
 from analysis.tad_scores import *
 from tad_writers import *
 from tad_plots import *
+import warnings
+warnings.simplefilter(action='ignore')
 
 
 BATCH_SIZE_THRESHOLD = 5000

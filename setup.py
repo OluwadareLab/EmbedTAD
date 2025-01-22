@@ -8,11 +8,11 @@ setuptools.setup(
     version="1.0.0",
     author="H M A Mohit Chowdhury",
     author_email="hchowdhu@uccs.edu",
-    description="An efficient pipeline for TAD clustering",
+    description="An efficient architecture for TAD detection",
     packages=setuptools.find_packages(),
     install_requires=required,
     classifiers=[
-        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.12",
         "License :: MIT License",
         "Operating System :: OS Independent",
     ],
