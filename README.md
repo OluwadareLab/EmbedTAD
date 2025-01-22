@@ -136,9 +136,9 @@ Optional: for converting *.hic/.cool* files into n \times n matrix.
 
 ## Run EmbedTAD
 ### Parameters
-* -i or --input: n \times n matrix file. (Required)
-* -r or --resolution: Resolution of the n \times n matrix such as 5000 for 5Kb, 10000 for 10Kb (Required)
-* -o or --output: output file name without extension (Required)
+* -i or --input: n\timesn matrix file (Required). 
+* -r or --resolution: Resolution of the n \times n matrix such as 5000 for 5Kb, 10000 for 10Kb (Required).
+* -o or --output: output file name without extension (Required).
 * -w or --worker: which version you want to use (OPTIONAL). Available option: CPU, GPU. Default: GPU
 * -n or --normalization: if you want to normalize your input matrix with Gaussian Filter (OPTIONAL). Available option: True, False. Default: True
 * -h or --help: show the available parameters.
