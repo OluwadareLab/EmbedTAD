@@ -39,26 +39,24 @@ def main():
         sys.exit(2)
 
     worker = "gpu"
-    if args.worker:
-        worker = str(args.worker).lower
+    if args.worker not in [None, ""]:
+        worker = str(args.worker).lower()
 
     norm = True
-    if args.normalization:
+    if args.normalization not in [None, ""]:
         norm = args.normalization
 
     logger = log.base_logger(output_file)
     logger.info(f"______Starting Pipeline______")
     print(f"______Starting Pipeline______")
     try:
+        logger.info(f"Worker: {worker}")
+        print(f"Worker: {worker}")
         if worker == "cpu":
-            logger.info(f"Worker: CPU")
-            print(f"Worker: CPU")
             import pipeline as _pip
             _pip.clustering(logger=logger, input_file=input_file,
                             resol=resol, output_file=output_file, norm=norm)
-        else:
-            logger.info(f"Worker: GPU")
-            print(f"Worker: GPU")
+        elif worker == "gpu":
             import cuda_pipeline as cuda_pip
             cuda_pip.clustering(logger=logger, input_file=input_file,
                                 resol=resol, output_file=output_file, norm=norm)
