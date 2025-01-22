@@ -1,0 +1,27 @@
+Without Gaussian Normalization in EmbedTAD
+================================================
+Chromosome: 1 -> HPTAD: 75.0, EmbedTAD: 34.58
+Chromosome: 3 -> HPTAD: 72.13, EmbedTAD: 30.39
+Chromosome: 5 -> HPTAD: 69.62, EmbedTAD: 32.21
+Chromosome: 7 -> HPTAD: 70.7, EmbedTAD: 36.81
+Chromosome: 9 -> HPTAD: 72.2, EmbedTAD: 31.75
+Chromosome: 11 -> HPTAD: 71.11, EmbedTAD: 33.51
+Chromosome: 13 -> HPTAD: 72.93, EmbedTAD: 32.46
+Chromosome: 15 -> HPTAD: 74.86, EmbedTAD: 31.17
+Chromosome: 17 -> HPTAD: 70.97, EmbedTAD: 31.68
+Chromosome: 19 -> HPTAD: 76.46, EmbedTAD: 32.97
+
+################################################
+
+With Gaussian Normalization in EmbedTAD
+================================================
+Chromosome: 1 -> HPTAD: 75.0, EmbedTAD: 40.46
+Chromosome: 3 -> HPTAD: 72.13, EmbedTAD: 37.51
+Chromosome: 5 -> HPTAD: 69.62, EmbedTAD: 39.67
+Chromosome: 7 -> HPTAD: 70.7, EmbedTAD: 41.58
+Chromosome: 9 -> HPTAD: 72.2, EmbedTAD: 40.08
+Chromosome: 11 -> HPTAD: 71.11, EmbedTAD: 38.97
+Chromosome: 13 -> HPTAD: 72.93, EmbedTAD: 36.14
+Chromosome: 15 -> HPTAD: 74.86, EmbedTAD: 37.47
+Chromosome: 17 -> HPTAD: 70.97, EmbedTAD: 35.7
+Chromosome: 19 -> HPTAD: 76.46, EmbedTAD: 40.67

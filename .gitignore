@@ -25,3 +25,4 @@ csv
 xlsx
 jpg
 png
+./analysis/.*txt
