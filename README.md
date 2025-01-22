@@ -19,7 +19,7 @@ Email: ooluwada@uccs.edu <br>
 ***
 
 ## Installation
-We provided GPU and CPU implementation of EmbedTAD. We recommand to use **Python 3.12** and the following packages with the mentioned version. Install either GPU or CPU dependent packages.
+We provided GPU and CPU implementation of EmbedTAD. We recommand to use **Python 3.12** and the following packages with the mentioned version. We recommand to use Docker images from our remote repository.
 
 ### GPU
 #### Required packages
@@ -33,7 +33,7 @@ We recommand to use Python 3.12 and the following packages with the mentioned ve
 * tqdm==4.65.0
 * seaborn==0.13.2
 
-Optional: for converting *.hic/.cool* files into nXn matrix.
+Optional: for converting *.hic/.cool* files into n \times n matrix.
 * hic-straw==1.3.1
 * cooler==0.10.3
 
@@ -67,7 +67,7 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
         ```
 2. Run the EmbedTAD container and mount the present working directory to the container using 
    ```
-   docker run -itd --gpus all --privileged -v ${PWD}:${PWD} --name embedtad embedtad
+   docker run -itd --gpus all --privileged -v ${PWD}:${PWD} --name embedtad embedtad:latest
    ```
 3. Enter into EmbedTAD container using 
    ```
@@ -85,7 +85,7 @@ We recommand to use Python 3.12 and the following packages with the mentioned ve
 * seaborn==0.13.2
 * networkx==3.4.2
 
-Optional: for converting *.hic/.cool* files into nXn matrix.
+Optional: for converting *.hic/.cool* files into n \times n matrix.
 * hic-straw==1.3.1
 * cooler==0.10.3
 
@@ -97,7 +97,7 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
    ```
 2. Run the following command to install all the pip packages..
    ```
-   pip install -r requirements.cpu..txt
+   pip install -r requirements.cpu.txt
    ``` 
 
 #### Docker
@@ -127,8 +127,8 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
    ``` 
 ## Run EmbedTAD
 ### Parameters
-* -i or --input: nxn matrix file. (Required)
-* -r or --resolution: Resolution of the nxn matrix such as 5000 for 5Kb, 10000 for 10Kb (Required)
+* -i or --input: n \times n matrix file. (Required)
+* -r or --resolution: Resolution of the n \times n matrix such as 5000 for 5Kb, 10000 for 10Kb (Required)
 * -o or --output: output file name without extension (Required)
 * -w or --worker: which version you want to use (OPTIONAL). Available option: CPU, GPU. Default: GPU
 * -n or --normalization: if you want to normalize your input matrix with Gaussian Filter (OPTIONAL). Available option: True, False. Default: True
@@ -160,8 +160,8 @@ cd test
 ```
 
 
-#### Output
-* *_.bed (BED-like) file contains TAD regions as follows-
+## Output
+* <*>.bed (BED-like) file contains TAD regions as follows-
 
 | Start (bin) | Start | End (bin) | End | Count (bin) |
 |-------|-------------|-----|-----------|------------|
@@ -176,5 +176,5 @@ cd test
 | 1531  | 15300000    | 1541| 15410000  | 11         |
 | 1542  | 15410000    | 1552| 15520000  | 11         |
 
-* *_tq.txt file contains TAD Quality score
-* *.png file is the visualizstion of first few TADs as follows
+* <*>_tq.txt file contains TAD Quality score.
+* <*>.png file is the visualizstion of first few TADs.
