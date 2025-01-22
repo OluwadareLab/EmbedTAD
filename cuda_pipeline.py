@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import pandas as pd
 import numpy as np
 import cupy
@@ -7,7 +8,7 @@ import cugraph
 from cuda_netmf import NetMF
 from sklearn.cluster import HDBSCAN
 from itertools import groupby
-from tad_scores import *
+from analysis.tad_scores import *
 from tad_writers import *
 from tad_plots import *
 
@@ -38,8 +39,8 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     tad_regions["end (basepairs)"] = ""
     tad_regions["count"] = ""
 
-    logger.info(f"Reading {input_file}")
-    print(f"Reading {input_file}")
+    logger.info(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Reading {input_file}")
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Reading {input_file}")
     raw_matrix = np.loadtxt(input_file)
     n_rows, n_cols = raw_matrix.shape
     if n_rows != n_cols:
@@ -82,9 +83,9 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
         embeddings_model.fit(G)
         embeddings = embeddings_model.get_embedding()
         logger.info(
-            f"Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
         print(
-            f"Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
 
         logger.info(f"Running cluster algorithm")
         print(f"Running cluster algorithm")
@@ -92,9 +93,9 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
         clusterer = HDBSCAN(metric=METRIC)
         clusters = clusterer.fit(embeddings)
         logger.info(
-            f"Clustering algorithm taken time: {round(time.time()-cluster_algo_start_time, 2)} seconds")
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Clustering algorithm taken time: {round(time.time()-cluster_algo_start_time, 2)} seconds")
         print(
-            f"Clustering algorithm taken time: {round(time.time()-cluster_algo_start_time, 2)} seconds")
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Clustering algorithm taken time: {round(time.time()-cluster_algo_start_time, 2)} seconds")
 
         print("Recording TAD regions")
         logger.info("Recording TAD regions")
@@ -114,6 +115,11 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     print(f"Writing {tad_regions.shape} TAD regions")
     tad_regions.to_csv(output_file + ".bed", sep="\t",
                        header=False, index=False)
+    
+    logger.info(
+        f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Total clustering time: {round(time.time()-clustering_start_time, 2)} seconds")
+    print(
+        f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Total clustering time: {round(time.time()-clustering_start_time, 2)} seconds")
 
     tads = tad_regions[["start", "end"]]
     tads["start"] -= 1
@@ -130,7 +136,4 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     draw_heatmap_area(raw_matrix, tad_regions, file=output_file,
                       first_tad_count=DRAW_TADS_COUNTS)
 
-    logger.info(
-        f"Total clustering time: {round(time.time()-clustering_start_time, 2)} seconds")
-    print(
-        f"Total clustering time: {round(time.time()-clustering_start_time, 2)} seconds")
+    

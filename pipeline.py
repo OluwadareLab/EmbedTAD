@@ -6,7 +6,7 @@ import networkx as nx
 from netmf import NetMF
 from sklearn.cluster import HDBSCAN
 from itertools import groupby
-from tad_scores import *
+from analysis.tad_scores import *
 from tad_writers import *
 from tad_plots import *
 

@@ -1,10 +1,6 @@
 import logger as log
 import cuda_pipeline as cuda_pip
 
-import warnings
-
-warnings.simplefilter(action='ignore')
-
 RESOLUTIONS = [[10000, 5000,], [10000, 5000]]
 CHROMOSOMS = [[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21],
               [2, 4, 6, 8, 10, 12, 14, 16, 18]]
@@ -14,12 +10,12 @@ MATRIX_FILEPATH = "/home/mohit/Documents/project/EmbedTAD/data/matrix/"
 OUTPUT_FILEPATHS = ["/home/mohit/Documents/project/EmbedTAD/data/resutls/raw/gm12878/",
                     "/home/mohit/Documents/project/EmbedTAD/data/resutls/raw/ch12lx/"]
 
-for file in ["mouse_th1_10000_chr2"]:
-    input = f"/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/{file}.txt"
-    output = f"/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/res_{file}"
-    logger = log.base_logger(output)
-    cuda_pip.clustering(logger=logger, input_file=input,
-                        resol=10000, output_file=output, norm=True)
+
+input = f"{MATRIX_FILEPATH}gm12878_combined_10000_chr19.txt"
+output = f"/home/mohit/Documents/project/EmbedTAD/data/resutls/raw/cuda_test_gm12878_10000_chr19"
+logger = log.base_logger(output)
+cuda_pip.clustering(logger=logger, input_file=input,
+                    resol=10000, output_file=output, norm=True)
 
 # for in_p, resols, chroms, out_p, out_path in zip(IN_PREFIXS, RESOLUTIONS, CHROMOSOMS, OUT_PREFIXS, OUTPUT_FILEPATHS):
 #     for resol in resols:
