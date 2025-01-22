@@ -24,4 +24,4 @@ HPTAD/*
 csv
 xlsx
 jpg
-!./test/*
+!./test/test_heatmap.png
