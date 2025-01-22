@@ -58,9 +58,6 @@ RUN git clone $REPO_URL /workspace
 # Set the working directory
 WORKDIR /workspace
 
-# Install required Python packages
-RUN if [ -f "requirements.cpu.txt" ]; then python3 -m pip install -r requirements.cpu.txt; fi
-
 # Set the home directory
 ENV HOME=/workspace
 

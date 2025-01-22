@@ -68,9 +68,6 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Install required Python packages
-RUN if [ -f "requirements.txt" ]; then python3 -m pip install -r requirements.txt; fi
-
 # Set the home directory
 ENV HOME=/workspace
 

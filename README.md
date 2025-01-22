@@ -45,7 +45,7 @@ Optional: for converting *.hic/.cool* files into n \times n matrix.
    ```
 2. Run the following command to install all the pip packages..
    ```
-   pip install -r requirements.txt
+   python3 -m pip install -r requirements.txt
    ``` 
 
 #### Docker
@@ -73,6 +73,10 @@ Optional: for converting *.hic/.cool* files into n \times n matrix.
    ```
    docker exec -it embedtad bash
    ```
+4. Install packages
+   ```
+   python3 -m pip install -r requirements.txt
+   ```
 
 ### CPU
 #### Required packages
@@ -97,7 +101,7 @@ Optional: for converting *.hic/.cool* files into n \times n matrix.
    ```
 2. Run the following command to install all the pip packages..
    ```
-   pip install -r requirements.cpu.txt
+   python3 -m pip install -r requirements.cpu.txt
    ``` 
 
 #### Docker
@@ -124,7 +128,12 @@ Optional: for converting *.hic/.cool* files into n \times n matrix.
 3. Enter into EmbedTAD container using 
    ```
    docker exec -it embedtad_cpu bash
-   ``` 
+   ```
+4. Install packages
+   ```
+   python3 -m pip install -r requirements.cpu.txt
+   ```
+
 ## Run EmbedTAD
 ### Parameters
 * -i or --input: n \times n matrix file. (Required)
