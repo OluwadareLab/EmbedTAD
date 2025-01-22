@@ -25,3 +25,6 @@ csv
 xlsx
 jpg
 !./test/test_heatmap.png
+run_on_gpu.sh
+run_on_cpu.sh
+test.sh

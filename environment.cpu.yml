@@ -1,0 +1,14 @@
+name: embedtad_cpu
+channels:
+  - rapidsai
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.12
+  - pandas
+  - scipy==1.15.1
+  - scikit-learn==1.6.1
+  - tqdm==4.65.0
+  - seaborn==0.13.2
+  - networkx==3.4.2

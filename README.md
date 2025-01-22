@@ -43,10 +43,25 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
    git clone https://github.com/OluwadareLab/EmbedTAD.git
    cd EmbedTAD
    ```
-2. Run the following command to install all the pip packages..
+2. Run the following command to install all the pip packages.
    ```
    python3 -m pip install -r requirements.txt
    ``` 
+
+#### Conda
+1. First clone the git repository
+   ```
+   git clone https://github.com/OluwadareLab/EmbedTAD.git
+   cd EmbedTAD
+   ```
+2. Run the following command to create conda environment with all dependencies.
+   ```
+   conda env create -f environment.yml
+   ``` 
+3. Activate conda environment
+   ```
+   conda activate embedtad
+   ```
 
 #### Docker
 1. You can build EmbedTAD docker image locally or you can pull form our remote Repository
@@ -103,6 +118,21 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
    ```
    python3 -m pip install -r requirements.cpu.txt
    ``` 
+
+#### Conda
+1. First clone the git repository
+   ```
+   git clone https://github.com/OluwadareLab/EmbedTAD.git
+   cd EmbedTAD
+   ```
+2. Run the following command to create conda environment with all dependencies.
+   ```
+   conda env create -f environment.cpu.yml
+   ``` 
+3. Activate conda environment
+   ```
+   conda activate embedtad_cpu
+   ```
 
 #### Docker
 1. You can build EmbedTAD docker image locally or you can pull form our remote Repository
