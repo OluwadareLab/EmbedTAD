@@ -167,11 +167,11 @@ Optional: for converting *.hic/.cool* files into nXn matrix.
 ## Run EmbedTAD
 ### Parameters
 * -i or --input: nXn matrix file (Required). 
-* -r or --resolution: Resolution of the nXn matrix such as 5000 for 5Kb, 10000 for 10Kb (Required).
+* -r or --resolution: resolution of the nXn matrix such as 5000 for 5Kb, 10000 for 10Kb (Required).
 * -o or --output: output file name without extension (Required).
-* -w or --worker: which version you want to use (OPTIONAL). Available option: CPU, GPU. Default: GPU
-* -n or --normalization: if you want to normalize your input matrix with Gaussian Filter (OPTIONAL). Available option: True, False. Default: True
-* -h or --help: show the available parameters.
+* -w or --worker: which version you want to use (Optional). Available options: CPU, GPU. Default: GPU
+* -n or --normalization: if you want to normalize your input matrix with Gaussian Filter (Optional). Available options: True, False. Default: True
+* -h or --help: print the available parameters.
 
 ```
 python3 embedtad.py --input input_matrix.txt --output output --resolution 10000 --worker GPU --normalization True
