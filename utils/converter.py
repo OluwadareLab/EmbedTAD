@@ -45,9 +45,8 @@ def to_square_matrix(chrom_size_file: str, in_file: str, out_path: str, out_pref
 
     for res in resols:
         for chr in chroms:
-
             start_time = time.time()
-            output_file = out_path + out_prefix
+            output_file = f"{out_path}/{out_prefix}"
             if norm == "NONE":
                 output_file = output_file + "_" + \
                     str(res) + "_" + "chr"+str(chr)
@@ -62,6 +61,7 @@ def to_square_matrix(chrom_size_file: str, in_file: str, out_path: str, out_pref
             print(hic.getGenomeID())
             print(hic.getResolutions())
             temp = str(chr)
+            chr = str(chr)
             if assembly.startswith("mm"):
                 chr = "chr"+temp
             bed = hicstraw.straw(d_type, norm, in_file,
@@ -71,9 +71,9 @@ def to_square_matrix(chrom_size_file: str, in_file: str, out_path: str, out_pref
             mat = bed2mat(bed, chrom_size[chr], res)
             print(f"saving: {output_file}")
             logger.info(f"saving: {output_file}")
-            # np.savetxt(output_file, mat, delimiter="\t", fmt="%.4f")
-            np.save(output_file, mat)
-            region(output_file, mat.shape[0], "chr"+str(temp), res)
+            np.savetxt(f"{output_file}.txt", mat, delimiter="\t", fmt="%.4f")
+            # np.save(output_file, mat)
+            # region(output_file, mat.shape[0], "chr"+str(temp), res)
             print(f"File saved to: {output_file}")
             logger.info(f"File saved to: {output_file}")
             total_running_time = round(time.time() - start_time, 2)
@@ -92,3 +92,25 @@ def region(file, bins, chr, resol=10000):
             outfile.write(line)
             start = end
             end = start+resol
+
+
+INPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw"
+OUTPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw"
+RESOLUTIONS = [5000, 10000]
+CHROMOSOMES = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+                20, 21, 22], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]]
+FILENAMES = ["GSE63525_GM12878_insitu_primary+replicate_combined_30.hic",
+             "GSE63525_CH12-LX_combined_30.hic"]
+CHRS_SIZE_FILES = ["hg19.chrom.sizes", "mm9.chrom.sizes"]
+ASSEMBLY = ["hg19", "mm9"]
+OUTPUT_PREFIX = ["gm12878", "ch12lx"]
+
+
+def main():
+    for file, chr_size_file, assembly, chrs, out_prefix in zip(FILENAMES, CHRS_SIZE_FILES, ASSEMBLY, CHROMOSOMES, OUTPUT_PREFIX):
+        to_square_matrix(chrom_size_file=f"{INPUT_PATH}/{chr_size_file}",
+                         in_file=f"{INPUT_PATH}/{file}", out_path=OUTPUT_PATH, out_prefix=out_prefix, assembly=assembly, chroms=chrs, resols=RESOLUTIONS)
+
+
+if __name__ == "__main__":
+    main()

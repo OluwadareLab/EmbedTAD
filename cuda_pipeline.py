@@ -11,6 +11,7 @@ from itertools import groupby
 from analysis.tad_scores import *
 from tad_writers import *
 from tad_plots import *
+from assembler import assembler
 import warnings
 warnings.simplefilter(action='ignore')
 
@@ -23,8 +24,9 @@ ORDER = 2
 NEGATIVE_SAMPLE = 1
 SEED = 0
 METRIC = "euclidean"
-MIN_TAD_SIZE = 100000
-MAX_TAD_SIZE = 5000000
+MIN_TAD_SIZE = 1_00_000
+MAX_TAD_SIZE = 50_00_000
+OVERLAP_THRESHOLD = 30_00_000
 DRAW_TADS_COUNTS = 5
 
 
@@ -34,14 +36,15 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     MIN_BINS = int(math.ceil(MIN_TAD_SIZE/resol))
     MAX_BINS = int(math.ceil(MAX_TAD_SIZE/resol))
 
-    tad_regions = pd.DataFrame()
-    tad_regions["start"] = ""
-    tad_regions["start (basepairs)"] = ""
-    tad_regions["end"] = ""
-    tad_regions["end (basepairs)"] = ""
-    tad_regions["count"] = ""
+    tads = pd.DataFrame()
+    tads["start"] = ""
+    # tads["start (basepairs)"] = ""
+    tads["end"] = ""
+    # tads["end (basepairs)"] = ""
+    # tads["count"] = ""
 
-    logger.info(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Reading {input_file}")
+    logger.info(
+        f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Reading {input_file}")
     print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Reading {input_file}")
     raw_matrix = np.loadtxt(input_file)
     n_rows, n_cols = raw_matrix.shape
@@ -57,6 +60,8 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
 
     for start_row in range(0, n_rows, batch_size):
         end_row = min(start_row + batch_size, n_rows)
+        boundary_threshold = int(OVERLAP_THRESHOLD/resol)
+        start_row = start_row if start_row == 0 else start_row - boundary_threshold
         logger.info(f"Processing {start_row}-{end_row} data")
         print(f"Processing {start_row}-{end_row} data")
 
@@ -109,23 +114,20 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
         for i in range(0, len(c_counts)):
             end = start + c_counts[i] - 1
             if c_counts[i] >= MIN_BINS and c_counts[i] <= MAX_BINS:
-                tad_regions.loc[len(tad_regions.index)] = [
-                    start, (start-1)*resol, end, end*resol, c_counts[i]]
+                tads.loc[len(tads.index)] = [start, end]
             start = start + c_counts[i]
 
-    logger.info(f"Writing {tad_regions.shape} TAD regions")
-    print(f"Writing {tad_regions.shape} TAD regions")
-    tad_regions.to_csv(output_file + ".bed", sep="\t",
+    logger.info(f"Writing {tads.shape} TAD regions")
+    print(f"Writing {tads.shape} TAD regions")
+    tads = assembler(tads)
+    tads.to_csv(output_file + ".txt", sep="\t",
                        header=False, index=False)
-    
+
     logger.info(
         f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Total clustering time: {round(time.time()-clustering_start_time, 2)} seconds")
     print(
         f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Total clustering time: {round(time.time()-clustering_start_time, 2)} seconds")
 
-    tads = tad_regions[["start", "end"]]
-    tads["start"] -= 1
-    tads["end"] -= 1
     tads = tads.to_numpy()
     tad_quality = get_tad_quality(tads, raw_matrix)
     tad_quality_file = output_file+"_tq.txt"
@@ -133,9 +135,7 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     print(f"Writing TAD Quality: {tad_quality} to {tad_quality_file}")
     write_tad_quality(tad_quality=tad_quality, file=tad_quality_file)
 
-    logger.info(f"Plotting heatmap of first {DRAW_TADS_COUNTS} TADs")
-    print(f"Plotting heatmap of first {DRAW_TADS_COUNTS} TADs")
-    draw_heatmap_area(raw_matrix, tad_regions, file=output_file,
-                      first_tad_count=DRAW_TADS_COUNTS)
-
-    
+    # logger.info(f"Plotting heatmap of first {DRAW_TADS_COUNTS} TADs")
+    # print(f"Plotting heatmap of first {DRAW_TADS_COUNTS} TADs")
+    # draw_heatmap_area(raw_matrix, tads, file=output_file,
+    #                   first_tad_count=DRAW_TADS_COUNTS)
