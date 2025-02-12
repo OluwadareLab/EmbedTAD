@@ -14,13 +14,15 @@ def plot_tad_counts(dataset1, dataset2, dataset3):
 
     plt.title("Number of TADs")
     plt.ylabel("Count")
-    plt.savefig("number_of_tads.png", dpi=600, bbox_inches="tight")
+    plt.savefig("/home/mohit/Documents/project/embed_tad/plots/mus_number_of_tads.png", dpi=600, bbox_inches="tight")
 
 def main():
-    dataset1 = pd.read_csv("/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/mouse_naiev_10000_chr2.bed", sep="\t", header=None, names=["chrom", "start", "end"])
-    dataset2 = pd.read_csv("/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/mouse_th17_10000_chr2.bed", sep="\t", header=None, names=["chrom", "start", "end"])
-    dataset3 = pd.read_csv("/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/mouse_th1_10000_chr2.bed", sep="\t", header=None, names=["chrom", "start", "end"])
-
+    dataset1 = pd.read_csv("/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/naive_10000_chr2.txt",
+                           sep="\t", header=None, names=["start", "end"])
+    dataset2 = pd.read_csv("/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th17_10000_chr2.txt",
+                           sep="\t", header=None, names=["start", "end"])
+    dataset3 = pd.read_csv("/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th1_10000_chr2.txt",
+                           sep="\t", header=None, names=["start", "end"])
     plot_tad_counts(dataset1, dataset2, dataset3)
 
 if __name__ == "__main__":

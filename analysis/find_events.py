@@ -1,8 +1,8 @@
 import pandas as pd
 
 def main(ref, data):
-    dataset1 = pd.read_csv(ref, sep="\t", header=None, names=["chrom", "start", "end"])
-    dataset2 = pd.read_csv(data, sep="\t", header=None, names=["chrom", "start", "end"])
+    dataset1 = pd.read_csv(ref, sep="\t", header=None, names=["start", "end"])
+    dataset2 = pd.read_csv(data, sep="\t", header=None, names=["start", "end"])
     window = 100
     split_dict = {}
     split_events = 0
@@ -39,13 +39,11 @@ def main(ref, data):
 
 
 if __name__ == "__main__":
-    ref = "/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/mouse_naiev_10000_chr2.bed"
-    data = "/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/mouse_th17_10000_chr2.bed"
+    ref = "/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/naive_10000_chr2.txt"
+    data = "/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th17_10000_chr2.txt"
     print("Naive vs Th17")
     main(ref=ref, data=data)
     print("Naive vs Th1")
-    data = "/home/mohit/Documents/project/EmbedTAD/data/bio_analysis/mouse_th1_10000_chr2.bed"
+    data = "/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th1_10000_chr2.txt"
     main(ref=ref, data=data)
-
-    (26320000, 26420000)
 

@@ -46,13 +46,48 @@
 # wait
 
 
-pyGenomeTracks --tracks gm12878_5000_chr3.ini --region chr3:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_5000_chr3.png &
-pyGenomeTracks --tracks gm12878_10000_chr3.ini --region chr3:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_10000_chr3.png &
-pyGenomeTracks --tracks gm12878_5000_chr19.ini --region chr19:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_5000_chr19.png &
-pyGenomeTracks --tracks gm12878_10000_chr19.ini --region chr19:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_10000_chr19.png &
+# pyGenomeTracks --tracks gm12878_5000_chr3.ini --region chr3:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_5000_chr3.png &
+# pyGenomeTracks --tracks gm12878_10000_chr3.ini --region chr3:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_10000_chr3.png &
+# pyGenomeTracks --tracks gm12878_5000_chr19.ini --region chr19:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_5000_chr19.png &
+# pyGenomeTracks --tracks gm12878_10000_chr19.ini --region chr19:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_gm12878_10000_chr19.png &
 
-pyGenomeTracks --tracks ch12lx_5000_chr2.ini --region chr2:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_5000_chr2.png &
-pyGenomeTracks --tracks ch12lx_10000_chr2.ini --region chr2:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_10000_chr2.png &
-pyGenomeTracks --tracks ch12lx_5000_chr18.ini --region chr18:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_5000_chr18.png &
-pyGenomeTracks --tracks ch12lx_10000_chr18.ini --region chr18:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_10000_chr18.png &
-wait
+# pyGenomeTracks --tracks ch12lx_5000_chr2.ini --region chr2:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_5000_chr2.png &
+# pyGenomeTracks --tracks ch12lx_10000_chr2.ini --region chr2:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_10000_chr2.png &
+# pyGenomeTracks --tracks ch12lx_5000_chr18.ini --region chr18:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_5000_chr18.png &
+# pyGenomeTracks --tracks ch12lx_10000_chr18.ini --region chr18:50000000-54000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_ch12lx_10000_chr18.png &
+# wait
+
+# cp /home/mohit/Documents/project/embed_tad/data/raw/mesc_gse35156/mesc_40000_chr1.h5 mesc_40000_chr1.h5 &
+# cp /home/mohit/Documents/project/embed_tad/data/raw/mesc_gse35156/mesc_40000_chr3.h5 mesc_40000_chr3.h5 &
+# cp /home/mohit/Documents/project/embed_tad/data/raw/mesc_gse35156/mesc_40000_chr17.h5 mesc_40000_chr17.h5 &
+# cp /home/mohit/Documents/project/embed_tad/data/raw/mesc_gse35156/mesc_40000_chr19.h5 mesc_40000_chr19.h5 &
+# wait
+# awk -F"\t" '{print "chr1\t" $1 "\t" $2}' /home/mohit/Documents/project/embed_tad/data/results/gpu/mesc_gse35156/mesc_ori_40000_chr1.txt > mesc_40000_chr1.bed &
+# awk -F"\t" '{print "chr3\t" $1 "\t" $2}' /home/mohit/Documents/project/embed_tad/data/results/gpu/mesc_gse35156/mesc_ori_40000_chr3.txt > mesc_40000_chr3.bed &
+# awk -F"\t" '{print "chr17\t" $1 "\t" $2}' /home/mohit/Documents/project/embed_tad/data/results/gpu/mesc_gse35156/mesc_ori_40000_chr17.txt > mesc_40000_chr17.bed &
+# awk -F"\t" '{print "chr19\t" $1 "\t" $2}' /home/mohit/Documents/project/embed_tad/data/results/gpu/mesc_gse35156/mesc_ori_40000_chr19.txt > mesc_40000_chr19.bed &
+# wait
+
+# awk -F"\t" '{print $1 "\t" $2 "\t" $3}' /home/mohit/Documents/project/HPTAD/data/result/foo.HPTAD.chr1.40000.tads.bed > mesc_hptad_40000_chr1.bed &
+# awk -F"\t" '{print $1 "\t" $2 "\t" $3}' /home/mohit/Documents/project/HPTAD/data/result/foo.HPTAD.chr3.40000.tads.bed > mesc_hptad_40000_chr3.bed &
+# awk -F"\t" '{print $1 "\t" $2 "\t" $3}' /home/mohit/Documents/project/HPTAD/data/result/foo.HPTAD.chr17.40000.tads.bed > mesc_hptad_40000_chr17.bed &
+# awk -F"\t" '{print $1 "\t" $2 "\t" $3}' /home/mohit/Documents/project/HPTAD/data/result/foo.HPTAD.chr19.40000.tads.bed > mesc_hptad_40000_chr19.bed &
+# wait
+
+# pyGenomeTracks --tracks mesc_40000_chr1.ini --region chr1:20000000-26000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_mesc_40000_chr1.png &
+# pyGenomeTracks --tracks mesc_40000_chr3.ini --region chr3:20000000-26000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_mesc_40000_chr3.png &
+# pyGenomeTracks --tracks mesc_40000_chr17.ini --region chr17:20000000-26000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_mesc_40000_chr17.png &
+# pyGenomeTracks --tracks mesc_40000_chr19.ini --region chr19:20000000-26000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_mesc_40000_chr19.png &
+# wait
+
+# cp /home/mohit/Documents/project/embed_tad/data/raw/mus_gse210418/naive_10000.h5 naive_10000.h5 &
+# cp /home/mohit/Documents/project/embed_tad/data/raw/mus_gse210418/th17_10000.h5 th17_10000.h5 &
+# cp /home/mohit/Documents/project/embed_tad/data/raw/mus_gse210418/th1_10000.h5 th1_10000.h5 &
+# awk -F"\t" '{print "chr2\t" $1 "\t" $2}' /home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/naive_10000_chr2.txt > naive_10000_chr2.bed &
+# awk -F"\t" '{print "chr2\t" $1 "\t" $2}' /home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th17_10000_chr2.txt > th17_10000_chr2.bed &
+# awk -F"\t" '{print "chr2\t" $1 "\t" $2}' /home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th1_10000_chr2.txt > th1_10000_chr2.bed &
+# wait
+
+# pyGenomeTracks --tracks mus_10000_chr2_naive_th17.ini --region chr2:28000000-32000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_mus_10000_chr2_naive_th17.png &
+# pyGenomeTracks --tracks mus_10000_chr2_naive_th1.ini --region chr2:36000000-40000000 --width 40 --dpi 600 -out /home/mohit/Documents/project/embed_tad/plots/chip_sig_mus_10000_chr2_naive_th1.png &
+# wait

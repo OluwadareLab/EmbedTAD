@@ -94,9 +94,9 @@ def region(file, bins, chr, resol=10000):
             end = start+resol
 
 
-INPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw/mus_gse210418"
-OUTPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw/mus_gse210418"
-RESOLUTIONS = [5000, 10000]
+INPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw/mesc_gse35156"
+OUTPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw/mesc_gse35156"
+RESOLUTIONS = [40000]
 CHROMOSOMES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 FILENAMES = ["ch12lx.hic"]
 CHRS_SIZE_FILES = ["mm9.chrom.sizes"]
@@ -106,7 +106,7 @@ OUTPUT_PREFIX = ["ch12lx"]
 
 def main():
     for chr in CHROMOSOMES:
-        cool_to_matrix(INPUT_PATH, "th1_10000.cool", chr)
+        cool_to_matrix(INPUT_PATH, "mesc_ori_40000.cool", chr)
     # for file, chr_size_file, assembly, chrs, out_prefix in zip(FILENAMES, CHRS_SIZE_FILES, ASSEMBLY, CHROMOSOMES, OUTPUT_PREFIX):
     #     to_square_matrix(chrom_size_file=f"{INPUT_PATH}/{chr_size_file}",
     #                      in_file=f"{INPUT_PATH}/{file}", out_path=OUTPUT_PATH, out_prefix=out_prefix, assembly=assembly, chroms=chrs, resols=RESOLUTIONS)
