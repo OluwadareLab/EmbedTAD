@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 EMBEDTAD_BASEPATH = "/home/mohit/Documents/project/EmbedTAD/data/resutls/raw/mesc"
 HPTAD_BASEPATH = "/home/mohit/Documents/project/EmbedTAD/data/resutls/hptad"
 RESOLUTION = 40000
-WINDOW = 50
+WINDOW = 0
 
 # output = pd.DataFrame(columns=["chr", "percent"])
 # for chr in range(1, 20):

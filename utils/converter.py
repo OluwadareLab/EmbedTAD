@@ -94,22 +94,22 @@ def region(file, bins, chr, resol=10000):
             end = start+resol
 
 
-INPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw"
-OUTPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw"
+INPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw/mus_gse210418"
+OUTPUT_PATH = "/home/mohit/Documents/project/embed_tad/data/raw/mus_gse210418"
 RESOLUTIONS = [5000, 10000]
-CHROMOSOMES = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                20, 21, 22], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]]
-FILENAMES = ["GSE63525_GM12878_insitu_primary+replicate_combined_30.hic",
-             "GSE63525_CH12-LX_combined_30.hic"]
-CHRS_SIZE_FILES = ["hg19.chrom.sizes", "mm9.chrom.sizes"]
-ASSEMBLY = ["hg19", "mm9"]
-OUTPUT_PREFIX = ["gm12878", "ch12lx"]
+CHROMOSOMES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+FILENAMES = ["ch12lx.hic"]
+CHRS_SIZE_FILES = ["mm9.chrom.sizes"]
+ASSEMBLY = ["mm10"]
+OUTPUT_PREFIX = ["ch12lx"]
 
 
 def main():
-    for file, chr_size_file, assembly, chrs, out_prefix in zip(FILENAMES, CHRS_SIZE_FILES, ASSEMBLY, CHROMOSOMES, OUTPUT_PREFIX):
-        to_square_matrix(chrom_size_file=f"{INPUT_PATH}/{chr_size_file}",
-                         in_file=f"{INPUT_PATH}/{file}", out_path=OUTPUT_PATH, out_prefix=out_prefix, assembly=assembly, chroms=chrs, resols=RESOLUTIONS)
+    for chr in CHROMOSOMES:
+        cool_to_matrix(INPUT_PATH, "th1_10000.cool", chr)
+    # for file, chr_size_file, assembly, chrs, out_prefix in zip(FILENAMES, CHRS_SIZE_FILES, ASSEMBLY, CHROMOSOMES, OUTPUT_PREFIX):
+    #     to_square_matrix(chrom_size_file=f"{INPUT_PATH}/{chr_size_file}",
+    #                      in_file=f"{INPUT_PATH}/{file}", out_path=OUTPUT_PATH, out_prefix=out_prefix, assembly=assembly, chroms=chrs, resols=RESOLUTIONS)
 
 
 if __name__ == "__main__":

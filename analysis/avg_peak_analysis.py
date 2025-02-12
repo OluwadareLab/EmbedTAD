@@ -7,22 +7,23 @@ import warnings
 warnings.simplefilter(action='ignore')
 
 
-BASE_PATH = "/home/mohit/Documents/project/EmbedTAD/data"
-ORGANISMS = ["GM12878", "CH12LX"]
+BASE_PATH = "/home/mohit/Documents/project/embed_tad/data"
+ORGANISMS = ["GM12878", "CH12.LX"]
 CHROMOSOMES = [19, 18]
 RESOLUTIONS = [5000]
-CHR_SIZE_FILES = ["hg19.chrom.sizes", "mm9.chrom.sizes"]
-TAD_FILENAMES = ["EmbedTAD.bed", "ClusterTAD.bed", "HiCseg.bed",
-                 "Spectral.bed", "TopDom.bed", "Armatus.bed", "IC_Finder.bed", "Caspian.bed"]
-PEAK_FILENAMES = [["GM12878_Ctcf.bedGraph",
-                   "GM12878_Rad21.bedGraph",
-                   "GM12878_Smc3.bedGraph"],
-                  ["CH12LX_Ctcf.bedGraph",
-                   "CH12LX_Rad21.bedGraph",
-                   "CH12LX_Smc3.bedGraph"]]
-LABELS = [["CTCF", "Rad21", "Smc3"], ["CTCF", "Rad21", "Smc3"]]
+CHR_SIZE_FILES = ["hg19.chrom.sizes", "mm10.chrom.sizes"]
+TAD_FILE_PREFIX = ["gm12878", "ch12lx"]
+TAD_FILE_SUFFIX = ["embedtad.bed", "clustertad.bed", "hicseg.bed",
+                   "spectral.bed", "topdom.bed", "armatus.bed", "ic_finder.bed", "caspian.bed"]
+SIGNAL_FILENAMES = [["gm12878_ctcf.bedgraph",
+                     "gm12878_rad21.bedgraph",
+                     "gm12878_smc3.bedgraph"],
+                    ["ch12lx_ctcf.bedgraph",
+                     "ch12lx_rad21.bedgraph",
+                     "ch12lx_smc3.bedgraph"]]
+LABELS = [["CTCF", "RAD21", "SMC3"], ["CTCF", "RAD21", "SMC3"]]
 ALGORITHMS = ["EmbedTAD", "ClusterTAD", "HiCseg",
-              "Spectral", "TopDom", "Armatus", "IC-Finder", "Caspian"]
+              "Spectral", "TopDom", "Armatus", "IC-Finder", "CASPIAN"]
 COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
           '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
@@ -89,12 +90,14 @@ def get_boundaries(tad_file, chr_sizes, chr, window=50):
             s = tads.iloc[idx]["end"]-window
             e = tads.iloc[idx+1]["start"] + window
             i = i+1
+            row = {"start": s, "end": e}
             boundaries = pd.concat([boundaries, pd.DataFrame(
                 row, index=[i])],  ignore_index=True)
             i = i+1
         elif idx == tads_count-1 and tads.iloc[idx]["end"] < end:
             s = tads.iloc[idx]["end"]
             e = end
+            row = {"start": s, "end": e}
             boundaries = pd.concat([boundaries, pd.DataFrame(
                 row, index=[i])],  ignore_index=True)
             i = i+1
@@ -117,22 +120,21 @@ def main():
     schema = {'idx': 'int8', 'signalValue': 'float64'}
     average_sv = pd.DataFrame(columns=schema.keys()).astype(schema)
 
-    for organism, chr, chr_size_file, ref_fns, og_labels in zip(ORGANISMS, CHROMOSOMES, CHR_SIZE_FILES, PEAK_FILENAMES, LABELS):
+    for organism, chr, chr_size_file, ref_fns, og_labels, prefix in zip(ORGANISMS, CHROMOSOMES, CHR_SIZE_FILES, SIGNAL_FILENAMES, LABELS, TAD_FILE_PREFIX):
         chr_sizes = pd.read_csv(
-            f"{BASE_PATH}/{chr_size_file}", delimiter='\t', header=None)
+            f"{BASE_PATH}/raw/{chr_size_file}", delimiter='\t', header=None)
         print(f"Organism: {organism}")
         for resol in RESOLUTIONS:
             lim = 25 if resol == 10000 else 50
             # average_sv["idx"] = np.arange(-lim, (lim+1), 1)
             print(f"Resolution: {resol}")
-            plt.rcParams.update({'font.size': 24})
+            plt.rcParams.update({'font.size': 10})
             row = 1
             col = 3
-            fig, axes = plt.subplots(row, col, figsize=(40, 8))
+            fig, axes = plt.subplots(row, col, figsize=(16, 4))
             for ax, ref_fn, label in zip(axes.flat, ref_fns, og_labels):
                 print(f"{label}: {ref_fn}")
-                ref_folder = organism.lower()
-                ref_file = f"{BASE_PATH}/chip_sig/{ref_folder}/{ref_fn}"
+                ref_file = f"{BASE_PATH}/raw/chip_signals/{ref_fn}"
                 ref_file = pd.read_csv(
                     ref_file, delimiter="\t", header=None, index_col=None)
                 ref_file = ref_file.loc[ref_file.iloc[:, 0] == f"chr{chr}", [
@@ -142,9 +144,10 @@ def main():
                 res = "10K" if resol == 10000 else "5K"
                 ymax = 0
                 could_draw = False
-                for tad_filename, algo, color in zip(TAD_FILENAMES, ALGORITHMS, COLORS):
-                    print(f"{tad_filename}")
-                    tad_file = f"{BASE_PATH}/resutls/comparison/{ref_folder}/{res}/{tad_filename}"
+
+                for suffix, algo, color in zip(TAD_FILE_SUFFIX, ALGORITHMS, COLORS):
+                    print(f"{suffix}")
+                    tad_file = f"{BASE_PATH}/results/tad_callers/{prefix}_{resol}_chr{chr}_{suffix}"
                     boundaries = get_boundaries(
                         tad_file, chr_sizes, chr, 50)
 
@@ -185,15 +188,15 @@ def main():
                 if could_draw:
                     ax.set_xlabel("Relative position")
                     # ax.set_ylabel("$log_{10}$(avg. signal value)")
-                    ax.set_ylabel(f"Avgerage signal")
+                    ax.set_ylabel(f"Average signal")
                     # ax.set_ylim(-0.5, ymax+0.10)
                     ax.set_title(f"{label}")
                     # loc='best' places it optimally, frameon=False removes the box
-                    ax.legend(loc='upper right', frameon=True, fontsize=22)
+                    ax.legend(loc='upper right', frameon=True, fontsize=8)
             # fig.suptitle(f"{organism} chr{chr} at {res}b", fontsize=24)
-            output_file = f"{BASE_PATH}/resutls/comparison/plots/{organism}_{res}_chr{chr}_average_peaks.png"
+            output_file = f"/home/mohit/Documents/project/embed_tad/plots/{organism}_{res}_chr{chr}_average_peaks.png"
             print(f"Saving figure {output_file}")
-            plt.savefig(output_file, dpi=300, bbox_inches="tight")
+            plt.savefig(output_file, dpi=600, bbox_inches="tight")
             plt.close()
 
 

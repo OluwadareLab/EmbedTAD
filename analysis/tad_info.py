@@ -4,16 +4,16 @@ import numpy as np
 import itertools
 import matplotlib.ticker as ticker
 
-BASE_PATH = "/home/mohit/Documents/project/EmbedTAD/data/resutls/raw"
+BASE_PATH = "/home/mohit/Documents/project/embed_tad/data/results/gpu"
 ORGANISM = ["gm12878", "ch12lx"]
 RESOLS = [[5000, 10000], [5000, 10000]]
-CHROMS = [[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21],
-          [2, 4, 6, 8, 10, 12, 14, 16, 18]]
+CHROMS = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]]
 
-OUTPUT_PATH = "/home/mohit/Documents/project/EmbedTAD/data/chip_sig/"
+OUTPUT_PATH = "/home/mohit/Documents/project/embed_tad/plots"
 
 
-def add_annotations(ax, bars, fontsize=16):
+def add_annotations(ax, bars, fontsize=10):
     for i, bar in enumerate(bars):
         yval = bar.get_height()
         fontweight = 'normal'
@@ -46,14 +46,14 @@ with open(f"{BASE_PATH}/tad_info.txt", "w") as outfile:
             bins = []
             min_max_size = []
             for chr in chrom_list:
-                domains = f"{BASE_PATH}/{org}/cuda_{org}_{resol}_chr{chr}.bed"
+                domains = f"{BASE_PATH}/{org}/{org}_{resol}_chr{chr}.txt"
                 print(f"Processing {domains}")
                 with open(domains, "r") as infile:
                     for line in infile:
                         count = count+1
                         columns = line.strip().split('\t')
                         tad_size.append(
-                            int((int(columns[3])-int(columns[1]))/1000))
+                            int((int(columns[1])*resol-int(columns[0])*resol)/1000))
             tad_count.append(count)
             min_size = min(tad_size)
             mean_size = round(np.mean(tad_size))
@@ -81,16 +81,16 @@ palette = itertools.cycle(colors)
 titles = ["Number of TAD", "TAD Size", "Size Distribution (GM12878 5Kb)",
           "Size Distribution (GM12878 10Kb)", "Size Distribution (CH12LX 5Kb)", "Size Distribution (CH12LX 10Kb)"]
 
-plt.rcParams.update({'font.size': 24})
-fig, axs = plt.subplots(2, 3, figsize=(30, 20))
+plt.rcParams.update({'font.size': 10})
+fig, axs = plt.subplots(2, 3, figsize=(16, 8.5))
 
 
 # Bar plot
 bars = sns.barplot(x=x_label, y=tad_count, palette=colors, ax=axs[0, 0])
-add_annotations(axs[0, 0], bars.patches, 24)
-axs[0, 0].set_title(titles[0], fontsize=28)
+add_annotations(axs[0, 0], bars.patches)
+axs[0, 0].set_title(titles[0])
 axs[0, 0].set_ylabel("count")
-axs[0, 0].tick_params(axis='x', labelsize=18)
+axs[0, 0].tick_params(axis='x', labelsize=8)
 
 
 # Line plots
@@ -98,18 +98,18 @@ for i in range(4):
     row = 1 if i >= 2 else 0
     col = (i + 1) % 3
     axs[row, col].plot(bin_list[i], size_dist_per_bin_list[i],
-                       label=x_label[i], color=colors[i])
-    axs[row, col].set_title(titles[i+2], fontsize=28)
+                       label=x_label[i], color=colors[i], linewidth=1)
+    axs[row, col].set_title(titles[i+2])
     axs[row, col].set_ylabel("% (per bin)")
-    axs[row, col].set_xlabel("bin (Kb)")
+    axs[row, col].set_xlabel("bin")
 
-    axs[row, col].axvline(x=min_max_sizes[i][1], color='green', linestyle='--')
-    axs[row, col].text(min_max_sizes[i][1]+250, 0.80, f"{min_max_sizes[i][1]}Kb", color='r', ha='right', va='top', rotation=90,
+    axs[row, col].axvline(x=min_max_sizes[i][1], color='green', linestyle='--', linewidth=2)
+    axs[row, col].text(min_max_sizes[i][1]+250, 0.55, f"{min_max_sizes[i][1]}Kb", color='r', ha='right', va='top', rotation=90,
                        transform=axs[row, col].get_xaxis_transform())
 
 
 # Box plot
-axs[1, 2].set_ylabel('size (Kb)')
+axs[1, 2].set_ylabel('Size (Kb)')
 # vplot = axs[0, 1].violinplot(tad_sizes, showmeans=True, showextrema=True)
 # for pc, color in zip(vplot['bodies'], colors):
 #     pc.set_facecolor(color)  # Set the face color of the violin
@@ -120,10 +120,10 @@ bplot = axs[1, 2].boxplot(tad_sizes, patch_artist=True)
 for patch, color in zip(bplot['boxes'], colors):
     patch.set_facecolor(color)
 
-axs[1, 2].set_title(titles[1], fontsize=28)
+axs[1, 2].set_title(titles[1])
 axs[1, 2].set_xticklabels(x_ticks)
-axs[1, 2].tick_params(axis='x', labelsize=18)
+axs[1, 2].tick_params(axis='x', labelsize=8)
 
 
 plt.tight_layout()
-plt.savefig("tad_info.png", dpi=300, bbox_inches="tight")
+plt.savefig(f"{OUTPUT_PATH}/tad_info.png", dpi=600, bbox_inches="tight")

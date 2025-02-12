@@ -31,17 +31,17 @@ palette = itertools.cycle(colors)
 titles = ["Overall", "4 noise level", "8 noise level",
           "12 noise level", "16 noise level", "20 noise level"]
 
-plt.rcParams.update({'font.size': 22})
-fig, axes = plt.subplots(2, 3, figsize=(30, 20))
+plt.rcParams.update({'font.size': 10})
+fig, axes = plt.subplots(2, 3, figsize=(14, 10))
 for ax, data, title in zip(axes.flat, [overall, n_4, n_8, n_12, n_16, n_20], titles):
     bars = sns.lineplot(data=data, x="dimension", y="MoC",
-                        color=next(palette), linewidth=4,  ax=ax)
+                        color=next(palette), linewidth=2,  ax=ax)
     ax.set_xlabel("Embedding Size")
     ax.set_ylabel("MoC")
-    ax.set_title(title, fontsize=28)
-    ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
-    ax.axvline(x=455, color='green', linestyle='--')
-    ax.text(455, 0.20, '455', color='r', ha='right', va='top', rotation=90,
+    ax.set_title(title)
+    ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.0f'))
+    ax.axvline(x=455, color='green', linewidth=2, linestyle='--')
+    ax.text(455, 0.50, '455', color='r', ha='right', va='top', rotation=90,
             transform=ax.get_xaxis_transform())
 
-plt.savefig("param_search_lineplots.png", dpi=300, bbox_inches="tight")
+plt.savefig("/home/mohit/Documents/project/embed_tad/plots/embedding_size_lineplots.png", dpi=600, bbox_inches="tight")

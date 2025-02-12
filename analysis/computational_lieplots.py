@@ -51,16 +51,17 @@ embed_time = pd.DataFrame(embed_time)
 
 # # Show the figure
 # plt.show()
-plt.rcParams.update({'font.size': 22})
-fig, axes = plt.subplots(2, 2, figsize=(30, 20))
+plt.rcParams.update({'font.size': 10})
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 for ax, data, title, ylabel in zip(axes.flat, [moc, tq, graph_time, embed_time], titles, y_labels):
     # data = data.pivot(index="machine", columns="nl", values="values")
-    bars = sns.lineplot(data=data.dropna(), x="nl", palette=sns.color_palette("Set2"),
-                        y="values", hue="machine", style="machine", markers=["X", "o"], markersize=14, estimator=None,
-                        linewidth=4,  ax=ax)
-    ax.set_title(title, fontsize=28)
+    bars = sns.lineplot(data=data.dropna(), x="nl", palette=sns.color_palette("tab10"),
+                        y="values", hue="machine", style="machine", markers=["X", "o"], markersize=6, estimator=None,
+                        linewidth=2,  ax=ax)
+    ax.set_title(title)
     ax.set_xlabel("Noise Level")
     ax.set_ylabel(ylabel)
     ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
 
-plt.savefig("computational_lineplots.png", dpi=300, bbox_inches="tight")
+plt.savefig("/home/mohit/Documents/project/embed_tad/plots/gpu_vs_cpu_performance_lineplots.png",
+            dpi=600, bbox_inches="tight")

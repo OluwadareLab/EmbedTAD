@@ -45,3 +45,10 @@ if __name__ == "__main__":
     tads = pd.read_csv(input_file, sep="\t", usecols=[0, 2], header=None)
     tads.columns = ['start', 'end']
     assembler(tads)
+
+
+def get_tad_quality(start, end, tads, raw_matrix):
+    quality = 0
+    for tad in tads:
+        quality += raw_matrix[tad[0]-1:tad[1], tad[0]-1:tad[1]].sum()
+    return quality

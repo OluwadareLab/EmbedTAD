@@ -28,3 +28,14 @@ jpg
 run_on_gpu.sh
 run_on_cpu.sh
 test.sh
+*.bed
+*.bedgraph
+*.bw
+*.bigwig
+*.h5
+*.cool
+*.hic
+*.txt
+./test/*
+*.png
+*.log

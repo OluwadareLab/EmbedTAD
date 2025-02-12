@@ -28,7 +28,7 @@ class Triangle(object):
         self.start = start
         self.end = end
 
-        M = np.loadtxt(uri, delimiter=' ')
+        M = np.loadtxt(uri, delimiter='\t')
         M[np.isnan(M)] = 0
         s, e = int(round(start/res)), int(round(end/res))
         self.matrix = M[s:e+1, s:e+1]
@@ -176,12 +176,15 @@ class Triangle(object):
 
         self.loops = loops
 
-    def plot_TAD(self, tad_fil, line_color='b', linewidth=3, line_style='-'):
+    def plot_TAD(self, tad_fil, resol, line_color='b', linewidth=3, line_style='-'):
 
-        tadtype = np.dtype({'names': ['chr', 'start', 'end'],
-                            'formats': ['U5', np.int_, np.int_]})
-        tads = np.loadtxt(tad_fil, dtype=tadtype, usecols=[0, 1, 2])
-        tads = tads[(tads['chr'] == 'chr' + str(self.chrom))]
+        tadtype = np.dtype({'names': ['start', 'end'],
+                            'formats': [np.int_, np.int_]})
+        tads = np.loadtxt(tad_fil, dtype=tadtype, usecols=[0, 1])
+        tads['start'] *= resol
+        tads['end'] *= resol
+
+        # tads = tads[(tads['chr'] == 'chr' + str(self.chrom))]
         mask = (tads['end'] > self.start) & (tads['start'] < self.end)
         tads = tads[mask]
 
@@ -212,7 +215,7 @@ class Triangle(object):
 
         self.tads = tads
 
-    def outfig(self, outfile, dpi=300, bbox_inches='tight'):
+    def outfig(self, outfile, dpi=600, bbox_inches='tight'):
         self.fig.savefig(outfile, dpi=dpi, bbox_inches=bbox_inches)
 
     def show(self):

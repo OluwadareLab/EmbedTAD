@@ -1,7 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
 def add_annotations(ax, bars, fontsize=14):
     for i, bar in enumerate(bars):
         yval = bar.get_height()
@@ -13,9 +12,8 @@ def add_annotations(ax, bars, fontsize=14):
             ha='center',
             va='bottom',
             fontsize=fontsize,
-            fontweight=fontweight  # Set the font weight
+            fontweight=fontweight
         )
-
 
 x = ["EmbedTAD",	"IC-Finder",	"ClusterTAD",	"CASPIAN",
      "TopDom",	"Armatus",	"HiCseg",	"Spectral"]
@@ -32,18 +30,16 @@ labels = ["EmbedTAD",	"IC-Finder",	"ClusterTAD",
 titles = ["Overall", "4 noise level", "8 noise level",
           "12 noise level", "16 noise level", "20 noise level"]
 
-plt.rcParams.update({'font.size': 22})
-fig, axes = plt.subplots(2, 3, figsize=(30, 20))
+plt.rcParams.update({'font.size': 12})
+fig, axes = plt.subplots(2, 3, figsize=(14, 10))
 for ax, y_data, title in zip(axes.flat, [y1, y2, y3, y4, y5, y6], titles):
     bars = sns.barplot(x=x, y=y_data, palette=colors, ax=ax)
-    add_annotations(ax, bars.patches, 22)
+    add_annotations(ax, bars.patches, 9)
     ax.get_xaxis().set_visible(False)
-    ax.set_title(title, fontsize=28)
+    ax.set_title(title)
 
 handles = [plt.Rectangle((0, 0), 1, 1, color=color) for color in colors]
-fig.legend(handles, labels, loc='upper center', ncol=8,
-           fontsize=26, bbox_to_anchor=(0.5, 1.1))
-
+fig.legend(handles, labels, loc='upper center', ncol=8, bbox_to_anchor=(0.5, 1.1))
 
 plt.tight_layout(rect=[0, 0, 1, 1.05])
-plt.savefig("moc_barplots.png", dpi=300, bbox_inches="tight")
+plt.savefig("/home/mohit/Documents/project/embed_tad/plots/moc_on_simulated_data_across_callers.png", dpi=600, bbox_inches="tight")

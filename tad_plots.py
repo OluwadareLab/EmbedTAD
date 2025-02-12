@@ -37,3 +37,19 @@ def draw_heatmap_area(matrix, tad_regions, file, first_tad_count=30, figure_size
 
         plt.savefig(file + "_" + str(first_tad_count) + "_heatmap.png",
                     dpi=dpi, bbox_inches="tight")
+
+
+def draw_heatmap(matrix, figure_size=(12, 12), dpi=600):
+    custom_cmap = LinearSegmentedColormap.from_list('interaction',
+                                                      ['#FFFFFF', '#FFDFDF', '#FF7575', '#FF2626', '#F70000'])
+    _, ax = plt.subplots(figsize=figure_size)
+    ax = sns.heatmap(matrix[1650:1750, 1650:1750], yticklabels=False,
+                     xticklabels=False, cbar=False, cmap=custom_cmap)
+
+    plt.savefig("example_heatmap.png",
+                dpi=dpi, bbox_inches="tight")
+
+import numpy as np
+if __name__:
+    raw_matrix = np.loadtxt("/home/mohit/Documents/project/caspian/TAD_results/SimulationData/4noise.hic")
+    draw_heatmap(raw_matrix)
