@@ -21,6 +21,6 @@ def write_tads(tads, file):
     tads.to_csv(file + ".tsv", sep="\t", header=False, index=False)
 
 
-def write_tad_quality(tad_quality, file):
+def write_quality_score(quality_text, file):
     with open(file, "w") as file:
-        file.write(f"TAD Quality: {tad_quality}\n")
+        file.write(f"{quality_text}\n")

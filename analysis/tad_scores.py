@@ -1,12 +1,13 @@
 import math
 import numpy as np
 
+
 def intra_quality(start, end, matrix):
     intra = 0
     sum = 0
     count = 0
-    for i in range(start, end+1):
-        for j in range(i + 1, end+1):
+    for i in range(start, end):
+        for j in range(i + 1, end):
             count += 1
             sum += matrix[i, j]
 
@@ -26,7 +27,7 @@ def inter_quality(start1, end1, start2, end2, matrix):
     for i in range(start1, start2):
         incr += 1
         c = 0
-        for j in range(end1+1, end2+1):
+        for j in range(end1, end2):
             c += 1
             count += 1
             sum_val += matrix[i, j]
@@ -157,8 +158,9 @@ def get_moc(tads, true_tads):
                     avg_moc.append(math.pow(ref_end - true_start, 2) / (
                         (true_end - true_start) * (ref_end - ref_start)))
                 else:
-                    avg_moc.append(math.pow(ref_end - ref_start, 2) / (
-                        (true_end - true_start) * (ref_end - ref_start)))
+                    nu = (true_end - true_start) * (ref_end - ref_start)
+                    avg_moc.append(math.pow(ref_end - ref_start,
+                                   2) / nu if nu > 0 else .000001)
             else:
                 avg_moc.append(0)
     if len(avg_moc) == 1 and avg_moc[0] > 0:

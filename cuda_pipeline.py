@@ -13,6 +13,7 @@ from tad_writers import *
 from tad_plots import *
 from assembler import assembler
 import warnings
+from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 warnings.simplefilter(action='ignore')
 
 
@@ -67,7 +68,12 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     cur_tads = pd.DataFrame()
     cur_tads["start"] = ""
     cur_tads["end"] = ""
+    silhouette = 0
+    db_index = 0
+    ch_index = 0
+    total = 0
     for start_row in range(0, n_rows, batch_size):
+        total += 1
         end_row = min(start_row + batch_size, n_rows)
         boundary_threshold = int(OVERLAP_THRESHOLD/resol)
         e_position = end_row
@@ -120,6 +126,11 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
 
         logger.info("Recording TAD regions")
         print("Recording TAD regions")
+
+        silhouette += silhouette_score(chunk, clusters.labels_)
+        db_index += davies_bouldin_score(chunk, clusters.labels_)
+        ch_index += calinski_harabasz_score(chunk, clusters.labels_)
+
         c_counts = [sum(1 for _ in group)
                     for _, group in groupby(clusters.labels_)]
 
@@ -164,11 +175,16 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     print(
         f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Total clustering time: {round(time.time()-clustering_start_time, 2)} seconds")
 
+    silhouette /= total
+    db_index /= total
+    ch_index /= total
     tad_quality = get_tad_quality(tads.to_numpy(), raw_matrix)
-    tad_quality_file = output_file+"_tq.txt"
-    logger.info(f"Writing TAD Quality: {tad_quality} to {tad_quality_file}")
-    print(f"Writing TAD Quality: {tad_quality} to {tad_quality_file}")
-    write_tad_quality(tad_quality=tad_quality, file=tad_quality_file)
+
+    quality_file = output_file+"_quality_score.txt"
+    logger.info(f"Writing TAD Quality: {tad_quality} to {quality_file}")
+    print(f"Writing TAD Quality: {tad_quality} to {quality_file}")
+    quality_score = f"TAD Quality: {tad_quality}\nSilhouette Score: {silhouette}\nDavies Bouldin Index: {db_index}\nCalinski Harabasz Index: {ch_index}"
+    write_quality_score(quality_text=quality_score, file=quality_file)
 
     logger.info(f"Writing {tads.shape} TAD regions")
     print(f"Writing {tads.shape} TAD regions")
