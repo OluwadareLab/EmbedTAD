@@ -5,6 +5,7 @@ import logger as log
 import warnings
 warnings.simplefilter(action='ignore')
 
+
 def arg_parser():
     parser = argparse.ArgumentParser(prog='PROG',
                                      description="Welcome to EmbedTAD.")
@@ -53,12 +54,12 @@ def main():
         logger.info(f"Worker: {worker}")
         print(f"Worker: {worker}")
         if worker == "cpu":
-            import pipeline as _pip
-            _pip.clustering(logger=logger, input_file=input_file,
-                            resol=resol, output_file=output_file, norm=norm)
+            import EmbedTAD.pipeline_cpu as pipeline_cpu
+            pipeline_cpu.clustering(logger=logger, input_file=input_file,
+                                    resol=resol, output_file=output_file, norm=norm)
         elif worker == "gpu":
-            import cuda_pipeline as cuda_pip
-            cuda_pip.clustering(logger=logger, input_file=input_file,
+            import EmbedTAD.pipeline as pipeline
+            pipeline.clustering(logger=logger, input_file=input_file,
                                 resol=resol, output_file=output_file, norm=norm)
     except Exception as ex:
         logger.error(ex)

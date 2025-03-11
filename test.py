@@ -1,5 +1,5 @@
 import logger as log
-import cuda_pipeline as cuda_pip
+import EmbedTAD.pipeline as cuda_pip
 
 import warnings
 

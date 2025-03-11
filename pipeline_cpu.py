@@ -2,10 +2,9 @@ import time
 from datetime import datetime
 import pandas as pd
 import numpy as np
-import cupy
-from cupyx.scipy.ndimage import gaussian_filter
-import cugraph
-from cuda_netmf import NetMF
+from scipy.ndimage import gaussian_filter
+import networkx as nx
+from netmf import NetMF
 from sklearn.cluster import HDBSCAN
 from itertools import groupby
 from analysis.tad_scores import *
@@ -25,8 +24,8 @@ ORDER = 2
 NEGATIVE_SAMPLE = 1
 SEED = 0
 METRIC = "euclidean"
-MIN_TAD_SIZE = 1_00_000
-MAX_TAD_SIZE = 50_00_000
+MIN_TAD_SIZE = 100000
+MAX_TAD_SIZE = 5000000
 OVERLAP_THRESHOLD = 30_00_000
 DRAW_TADS_COUNTS = 5
 
@@ -48,9 +47,6 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
         f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Reading {input_file}")
     print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Reading {input_file}")
     raw_matrix = np.loadtxt(input_file)
-    logger.info(
-        f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Shape {raw_matrix.shape}")
-    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  Shape {raw_matrix.shape}")
     n_rows, n_cols = raw_matrix.shape
     if n_rows != n_cols:
         logger.info(f"Matrix is not square")
@@ -72,6 +68,7 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
     db_index = 0
     ch_index = 0
     total = 0
+
     for start_row in range(0, n_rows, batch_size):
         total += 1
         end_row = min(start_row + batch_size, n_rows)
@@ -89,14 +86,12 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
         if norm:
             logger.info(f"Applying Gaussian filter")
             print(f"Applying Gaussian filter")
-            chunk = cupy.asarray(chunk)
             chunk = gaussian_filter(chunk, sigma=SIGMA)
-            chunk = cupy.asnumpy(chunk)
 
         logger.info(f"Creating graph")
         print(f"Creating graph")
         graph_start_time = time.time()
-        G = cugraph.from_numpy_array(chunk)
+        G = nx.from_numpy_array(chunk)
         logger.info(
             f"Graph creation time: {round(time.time()-graph_start_time, 2)} seconds")
         print(
@@ -110,9 +105,9 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
         embeddings_model.fit(G)
         embeddings = embeddings_model.get_embedding()
         logger.info(
-            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
+            f"Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
         print(
-            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
+            f"Embedding creation time: {round(time.time()-embedding_start_time, 2)} seconds")
 
         logger.info(f"Running cluster algorithm")
         print(f"Running cluster algorithm")
@@ -124,8 +119,8 @@ def clustering(logger, input_file, resol, output_file, norm: bool = True):
         print(
             f"Clustering algorithm taken time: {round(time.time()-cluster_algo_start_time, 2)} seconds")
 
-        logger.info("Recording TAD regions")
         print("Recording TAD regions")
+        logger.info("Recording TAD regions")
 
         silhouette += silhouette_score(chunk, clusters.labels_)
         db_index += davies_bouldin_score(chunk, clusters.labels_)
