@@ -1,14 +1,7 @@
 #!/bin/bash
 
-log_file="embedtad_gpu_sim.log"
-echo "EmbedTAD Execution Log" > "$log_file"
-echo "Start Time: $(date)" >> "$log_file"
-echo "---------------------------------------" >> "$log_file"
-
-total_start_time=$(date +%s)
-
-input_dir="/home/mohit/Documents/project/embed_tad/data/simulated/matrix"
-output_dir="/home/mohit/Documents/project/embed_tad/data/simulated/embedtad_cpu"
+input_dir="/home/hc0783.unt.ad.unt.edu/workspace/data/hictoolscompare/Simulations/sim_hic_count_matrix"
+output_dir="/home/hc0783.unt.ad.unt.edu/workspace/data/results/embedtad/sim_hic_40k"
 resolution=40000
 worker="CPU"
 normalization="True"
@@ -41,23 +34,30 @@ files=(
     "simHiC_countMatrix_20noise_10-21_19h30m07s.txt"
 )
 
-log_resources() {
-    cpu_memory=$(python3 -c "import psutil; print(psutil.Process().memory_info().rss / (1024 ** 2))")  # Memory in MB
-    echo "$(date) - CPU Memory Usage: ${cpu_memory} MB" >> "$log_file"
+log_file="${output_dir}/embedtad_sim.log"
+echo "EmbedTAD Execution Log" > "$log_file"
+echo "Start Time: $(date)" >> "$log_file"
+echo "---------------------------------------" >> "$log_file"
+
+total_start_time=$(date +%s)
+
+# log_resources() {
+#     cpu_memory=$(python3 -c "import psutil; print(psutil.Process().memory_info().rss / (1024 ** 2))")  # Memory in MB
+#     echo "$(date) - CPU Memory Usage: ${cpu_memory} MB" >> "$log_file"
     
-    gpu_memory=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits)
-    echo "$(date) - GPU Memory Usage: ${gpu_memory} MB" >> "$log_file"
-}
+#     gpu_memory=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits)
+#     echo "$(date) - GPU Memory Usage: ${gpu_memory} MB" >> "$log_file"
+# }
 
-log_continuously() {
-    while true; do
-        log_resources
-        sleep 1
-    done
-}
+# log_continuously() {
+#     while true; do
+#         log_resources
+#         sleep 1
+#     done
+# }
 
-log_continuously &
-log_pid=$!
+# log_continuously &
+# log_pid=$!
 
 for file in "${files[@]}"; do
     input_file="${input_dir}/${file}"

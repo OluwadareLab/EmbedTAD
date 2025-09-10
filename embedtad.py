@@ -54,11 +54,11 @@ def main():
         logger.info(f"Worker: {worker}")
         print(f"Worker: {worker}")
         if worker == "cpu":
-            import EmbedTAD.pipeline_cpu as pipeline_cpu
+            import pipeline_cpu as pipeline_cpu
             pipeline_cpu.clustering(logger=logger, input_file=input_file,
                                     resol=resol, output_file=output_file, norm=norm)
         elif worker == "gpu":
-            import EmbedTAD.pipeline as pipeline
+            import pipeline as pipeline
             pipeline.clustering(logger=logger, input_file=input_file,
                                 resol=resol, output_file=output_file, norm=norm)
     except Exception as ex:

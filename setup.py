@@ -6,8 +6,8 @@ with open("requirements.txt") as f:
 setuptools.setup(
     name="EmbedTAD",
     version="1.0.0",
-    author="H M A Mohit Chowdhury",
-    author_email="hchowdhu@uccs.edu",
+    author="H. M. A. Mohit Chowdhury",
+    author_email="h.m.a.mohitchowdhury@my.unt.edu",
     description="An efficient architecture for TAD detection",
     packages=setuptools.find_packages(),
     install_requires=required,

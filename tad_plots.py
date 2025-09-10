@@ -49,7 +49,7 @@ def draw_heatmap(matrix, figure_size=(12, 12), dpi=600):
     plt.savefig("example_heatmap.png",
                 dpi=dpi, bbox_inches="tight")
 
-import numpy as np
-if __name__:
-    raw_matrix = np.loadtxt("/home/mohit/Documents/project/caspian/TAD_results/SimulationData/4noise.hic")
-    draw_heatmap(raw_matrix)
+# import numpy as np
+# if __name__:
+#     # raw_matrix = np.loadtxt("/home/mohit/Documents/project/caspian/TAD_results/SimulationData/4noise.hic")
+#     # draw_heatmap(raw_matrix)
