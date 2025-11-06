@@ -4,18 +4,27 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline
 
+
+nature_colors = ["#009e74",  "#0072b2",  "#f0e442", "#d55e00",
+                 "#56b3e9", "#e69f00",  "#cc79a7", "#000000"
+                 ]
 plt.rcParams.update({'font.size': 14})
 
-df = pd.read_csv(f"/home/mohit/Documents/project/embed_tad/data/results/tad_callers/gm12878_rsqr.csv")
+df = pd.read_csv(
+    f"/home/hc0783.unt.ad.unt.edu/mohit/Documents/project/embed_tad/data/embedtad_results/tad_callers/gm12878_rsqr.csv")
 
 # df = df[df["Resolution"] == "5Kb"]
-reshaped_df = df.melt(id_vars=["Resolution"], var_name="Algorithm", value_name="Value")
+reshaped_df = df.melt(id_vars=["Resolution"],
+                      var_name="Algorithm", value_name="Value")
 
-summary = reshaped_df.groupby(['Resolution', 'Algorithm'])['Value'].agg(['min', 'median', 'max']).reset_index()
+summary = reshaped_df.groupby(['Resolution', 'Algorithm'])[
+    'Value'].agg(['min', 'median', 'max']).reset_index()
 # Rename the columns for better clarity
-summary.columns = ['Resolution', 'Algorithm', 'Min Value', 'Median Value', 'Max Value']
+summary.columns = ['Resolution', 'Algorithm',
+                   'Min Value', 'Median Value', 'Max Value']
 # Save the summary to a CSV file
-summary.to_csv('/home/mohit/Documents/project/embed_tad/plots/gm12878_rsqr_statistics.csv', index=False)
+summary.to_csv(
+    '/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/gm12878_rsqr_statistics.csv', index=False)
 
 # plt.figure(figsize=(12, 5))
 # sns.boxplot(data=reshaped_df, x="Algorithm", y="Value", hue="Resolution", fill=False, gap=.1)
@@ -33,7 +42,7 @@ for algo in reshaped_df['Algorithm'].unique():
         x_original = np.arange(len(sub_data))
         x_smooth = np.linspace(x_original.min(), x_original.max(), 150)
         y_smooth = make_interp_spline(x_original, sub_data['Value'])(x_smooth)
-        
+
         smooth_data.append(pd.DataFrame({
             "Algorithm": [algo] * len(x_smooth),
             "Value": y_smooth,
@@ -46,28 +55,35 @@ smooth_df = pd.concat(smooth_data, ignore_index=True)
 for resolution in smooth_df["Resolution"].unique():
     # Filter data for the current resolution
     res_data = smooth_df[smooth_df["Resolution"] == resolution]
-    
+
     # Create a 2x4 grid of line plots for each algorithm
-    g = sns.FacetGrid(res_data, col="Algorithm", col_wrap=4, height=4, hue="Algorithm", sharey=False, sharex=False)
+    g = sns.FacetGrid(res_data, col="Algorithm", col_wrap=4, palette=nature_colors,
+                      height=4, hue="Algorithm", sharey=False, sharex=False)
     g.map_dataframe(sns.lineplot, x="X_Axis", y="Value", linewidth=3)
-    
+
     # Add labels, titles, and adjust layout
     g.set_axis_labels("Distance (Kb)", f"TADadjR$^2$")
     g.set_titles("{col_name}")
     g.tight_layout(pad=3.0)  # Add padding to reduce overlap
     g.fig.subplots_adjust(top=0.9)  # Further adjust the top margin
     # g.fig.suptitle(f"GM12878 chr19 at {resolution} ", fontsize=16)
-    plt.savefig(f"/home/mohit/Documents/project/embed_tad/plots/gm12878_{resolution}_rsqr_lineplots.png", dpi=600, bbox_inches="tight")
+    plt.savefig(
+        f"/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/gm12878_{resolution}_rsqr_lineplots.png", dpi=300, bbox_inches="tight")
 
 
-df = pd.read_csv(f"/home/mohit/Documents/project/embed_tad/data/results/tad_callers/ch12lx_rsqr.csv")
+df = pd.read_csv(
+    f"/home/hc0783.unt.ad.unt.edu/mohit/Documents/project/embed_tad/data/embedtad_results/tad_callers/ch12lx_rsqr.csv")
 # df = df[df["Resolution"] == "5Kb"]
-reshaped_df = df.melt(id_vars=["Resolution"], var_name="Algorithm", value_name="Value")
-summary = reshaped_df.groupby(['Resolution', 'Algorithm'])['Value'].agg(['min', 'median', 'max']).reset_index()
+reshaped_df = df.melt(id_vars=["Resolution"],
+                      var_name="Algorithm", value_name="Value")
+summary = reshaped_df.groupby(['Resolution', 'Algorithm'])[
+    'Value'].agg(['min', 'median', 'max']).reset_index()
 # Rename the columns for better clarity
-summary.columns = ['Resolution', 'Algorithm', 'Min Value', 'Median Value', 'Max Value']
+summary.columns = ['Resolution', 'Algorithm',
+                   'Min Value', 'Median Value', 'Max Value']
 # Save the summary to a CSV file
-summary.to_csv('/home/mohit/Documents/project/embed_tad/plots/ch12lx_rsqr_statistics.csv', index=False)
+summary.to_csv(
+    '/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/ch12lx_rsqr_statistics.csv', index=False)
 
 # plt.figure(figsize=(12, 5))
 # sns.boxplot(data=reshaped_df, x="Algorithm", y="Value", hue="Resolution", fill=False, gap=.1)
@@ -84,7 +100,7 @@ for algo in reshaped_df['Algorithm'].unique():
         x_original = np.arange(len(sub_data))
         x_smooth = np.linspace(x_original.min(), x_original.max(), 150)
         y_smooth = make_interp_spline(x_original, sub_data['Value'])(x_smooth)
-        
+
         smooth_data.append(pd.DataFrame({
             "Algorithm": [algo] * len(x_smooth),
             "Value": y_smooth,
@@ -97,11 +113,12 @@ smooth_df = pd.concat(smooth_data, ignore_index=True)
 for resolution in smooth_df["Resolution"].unique():
     # Filter data for the current resolution
     res_data = smooth_df[smooth_df["Resolution"] == resolution]
-    
+
     # Create a 2x4 grid of line plots for each algorithm
-    g = sns.FacetGrid(res_data, col="Algorithm", col_wrap=4, height=4, hue="Algorithm", sharey=False, sharex=False)
+    g = sns.FacetGrid(res_data, col="Algorithm", col_wrap=4, palette=nature_colors,
+                      height=4, hue="Algorithm", sharey=False, sharex=False)
     g.map_dataframe(sns.lineplot, x="X_Axis", y="Value", linewidth=3)
-    
+
     # Set consistent x and y axis limits
     x_min, x_max = 0, 150  # Example: Adjust as needed
     y_min, y_max = 0, 1    # Example: Adjust as needed
@@ -109,11 +126,12 @@ for resolution in smooth_df["Resolution"].unique():
     for ax in g.axes.flat:
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
-    
+
     # Add labels, titles, and adjust layout
     g.set_axis_labels("Distance (Kb)", f"TADadjR$^2$")
     g.set_titles("{col_name}")
     g.tight_layout(pad=3.0)  # Add padding to reduce overlap
     g.fig.subplots_adjust(top=0.9)  # Further adjust the top margin
     # g.fig.suptitle(f"CH12LX chr18 at {resolution} ", fontsize=16)
-    plt.savefig(f"/home/mohit/Documents/project/embed_tad/plots/ch12lx_{resolution}_rsqr_lineplots.png", dpi=600, bbox_inches="tight")
+    plt.savefig(
+        f"/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/ch12lx_{resolution}_rsqr_lineplots.png", dpi=300, bbox_inches="tight")

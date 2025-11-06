@@ -4,13 +4,22 @@ import numpy as np
 import itertools
 import matplotlib.ticker as ticker
 
-BASE_PATH = "/home/mohit/Documents/project/embed_tad/data/results/gpu"
+
+# nature_colors = [
+#     "#000000", "#e69f00", "#56b3e9", "#009e74", "#f0e442", "#d55e00", "#cc79a7", "#0072b2"
+# ]
+
+nature_colors = ["#009e74",  "#0072b2",  "#f0e442", "#d55e00",
+                 "#56b3e9", "#e69f00",  "#cc79a7", "#000000"
+                 ]
+
+BASE_PATH = "/home/hc0783.unt.ad.unt.edu/mohit/Documents/project/embed_tad/data/embedtad_results/gpu"
 ORGANISM = ["gm12878", "ch12lx"]
 RESOLS = [[5000, 10000], [5000, 10000]]
 CHROMS = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]]
 
-OUTPUT_PATH = "/home/mohit/Documents/project/embed_tad/plots"
+OUTPUT_PATH = "/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis"
 
 
 def add_annotations(ax, bars, fontsize=10):
@@ -77,7 +86,7 @@ with open(f"{BASE_PATH}/tad_info.txt", "w") as outfile:
             outfile.write(txt)
 
 colors = sns.color_palette(palette="rocket", n_colors=6, as_cmap=False)
-palette = itertools.cycle(colors)
+palette = itertools.cycle(nature_colors)
 titles = ["Number of TAD", "TAD Size", "Size Distribution (GM12878 5Kb)",
           "Size Distribution (GM12878 10Kb)", "Size Distribution (CH12LX 5Kb)", "Size Distribution (CH12LX 10Kb)"]
 
@@ -86,7 +95,7 @@ fig, axs = plt.subplots(2, 3, figsize=(16, 8.5))
 
 
 # Bar plot
-bars = sns.barplot(x=x_label, y=tad_count, palette=colors, ax=axs[0, 0])
+bars = sns.barplot(x=x_label, y=tad_count, palette=nature_colors, ax=axs[0, 0])
 add_annotations(axs[0, 0], bars.patches)
 axs[0, 0].set_title(titles[0])
 axs[0, 0].set_ylabel("count")
@@ -98,13 +107,14 @@ for i in range(4):
     row = 1 if i >= 2 else 0
     col = (i + 1) % 3
     axs[row, col].plot(bin_list[i], size_dist_per_bin_list[i],
-                       label=x_label[i], color=colors[i], linewidth=1)
+                       label=x_label[i], color=nature_colors[i], linewidth=1)
     axs[row, col].set_title(titles[i+2])
     axs[row, col].set_ylabel("% (per bin)")
     axs[row, col].set_xlabel("bin")
 
-    axs[row, col].axvline(x=min_max_sizes[i][1], color='green', linestyle='--', linewidth=2)
-    axs[row, col].text(min_max_sizes[i][1]+250, 0.55, f"{min_max_sizes[i][1]}Kb", color='r', ha='right', va='top', rotation=90,
+    axs[row, col].axvline(x=min_max_sizes[i][1],
+                          color='#0072b2', linestyle='--', linewidth=2)
+    axs[row, col].text(min_max_sizes[i][1]+250, 0.55, f"{min_max_sizes[i][1]}Kb", color='#d55e00', ha='right', va='top', rotation=90,
                        transform=axs[row, col].get_xaxis_transform())
 
 
@@ -117,7 +127,7 @@ axs[1, 2].set_ylabel('Size (Kb)')
 #     pc.set_alpha(0.7)  # Optional: Set the transparency level
 
 bplot = axs[1, 2].boxplot(tad_sizes, patch_artist=True)
-for patch, color in zip(bplot['boxes'], colors):
+for patch, color in zip(bplot['boxes'], nature_colors):
     patch.set_facecolor(color)
 
 axs[1, 2].set_title(titles[1])
@@ -126,4 +136,4 @@ axs[1, 2].tick_params(axis='x', labelsize=8)
 
 
 plt.tight_layout()
-plt.savefig(f"{OUTPUT_PATH}/tad_info.png", dpi=600, bbox_inches="tight")
+plt.savefig(f"{OUTPUT_PATH}/tad_info.png", dpi=300, bbox_inches="tight")

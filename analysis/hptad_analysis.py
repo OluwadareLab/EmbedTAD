@@ -44,32 +44,37 @@ import matplotlib.pyplot as plt
 data = {
     "chr": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
     "percent": [72.15,
-70.79,
-69.14,
-70.35,
-68.48,
-74.65,
-64.71,
-63.69,
-63.01,
-64.44,
-57.89,
-66.10,
-67.22,
-58.70,
-0.00,
-73.68,
-58.82,
-0.00,
-68.67]
+                70.79,
+                69.14,
+                70.35,
+                68.48,
+                74.65,
+                64.71,
+                63.69,
+                63.01,
+                64.44,
+                57.89,
+                66.10,
+                67.22,
+                58.70,
+                0.00,
+                73.68,
+                58.82,
+                0.00,
+                68.67]
 }
+
+nature_colors = ["#009e74",  "#0072b2",  "#f0e442", "#d55e00",
+                 "#56b3e9", "#e69f00",  "#cc79a7", "#000000"
+                 ]
 df = pd.DataFrame(data)
 plt.figure(figsize=(12, 4))
-sns.barplot(data=df, x="chr", y="percent", palette="viridis")
+sns.barplot(data=df, x="chr", y="percent", color="#009e74")
 
 # Add labels and title
 plt.xlabel("Chromosome", fontsize=14)
 plt.ylabel("Percentage (%)", fontsize=14)
 plt.title("PLAC-seq TAD Recovery", fontsize=16)
 plt.tight_layout()
-plt.savefig(f"/home/mohit/Documents/project/embed_tad/plots/hptad_recovery.png", dpi=600, bbox_inches="tight")
+plt.savefig(f"/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/hptad_recovery.png",
+            dpi=300, bbox_inches="tight")

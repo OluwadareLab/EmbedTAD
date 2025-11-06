@@ -13,7 +13,7 @@ def plot_tad_counts(count1, count2, count3):
 
     plt.title("Number of TADs")
     plt.ylabel("Count")
-    plt.savefig("/home/mohit/Documents/project/embed_tad/plots/mus_number_of_tads.png",
+    plt.savefig("/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/mus_number_of_tads.png",
                 dpi=600, bbox_inches="tight")
 
 
@@ -22,11 +22,11 @@ def main():
     count2 = 0
     count3 = 0
     for chr in range(1, 20):
-        dataset1 = pd.read_csv(f"/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/naive_10000_chr{chr}.txt",
+        dataset1 = pd.read_csv(f"/home/hc0783.unt.ad.unt.edu/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/naive_10000_chr{chr}.txt",
                                sep="\t", header=None, names=["start", "end"])
-        dataset2 = pd.read_csv(f"/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th17_10000_chr{chr}.txt",
+        dataset2 = pd.read_csv(f"/home/hc0783.unt.ad.unt.edu/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th17_10000_chr{chr}.txt",
                                sep="\t", header=None, names=["start", "end"])
-        dataset3 = pd.read_csv(f"/home/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th1_10000_chr{chr}.txt",
+        dataset3 = pd.read_csv(f"/home/hc0783.unt.ad.unt.edu/mohit/Documents/project/embed_tad/data/results/gpu/mus_gse210418/th1_10000_chr{chr}.txt",
                                sep="\t", header=None, names=["start", "end"])
         count1 += len(dataset1)
         count2 += len(dataset2)

@@ -1,6 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 def add_annotations(ax, bars, fontsize=14):
     for i, bar in enumerate(bars):
         yval = bar.get_height()
@@ -15,6 +16,7 @@ def add_annotations(ax, bars, fontsize=14):
             fontweight=fontweight
         )
 
+
 x = ["EmbedTAD",	"IC-Finder",	"ClusterTAD",	"CASPIAN",
      "TopDom",	"Armatus",	"HiCseg",	"Spectral"]
 y1 = [93.0452,	73.6848,	56.9164,	76.7552,	89.8796,	89.2964,	73.528,	70.7148]
@@ -25,6 +27,9 @@ y5 = [91.998,	76.476,	52.932,	70.75,	87.992,	89.112,	83.84,	69.538]
 y6 = [91.9,	    77.074,	51.832,	60.244,	87.644,	86.78,	87.578,	68.606]
 
 colors = sns.color_palette("Paired", 8)
+nature_colors = ["#009e74",  "#0072b2",  "#f0e442", "#d55e00",
+                 "#56b3e9", "#e69f00",  "#cc79a7", "#000000"
+                 ]
 labels = ["EmbedTAD",	"IC-Finder",	"ClusterTAD",
           "CASPIAN", "TopDom",	"Armatus",	"HiCseg",	"Spectral"]
 titles = ["Overall", "4 noise level", "8 noise level",
@@ -33,13 +38,15 @@ titles = ["Overall", "4 noise level", "8 noise level",
 plt.rcParams.update({'font.size': 12})
 fig, axes = plt.subplots(2, 3, figsize=(14, 10))
 for ax, y_data, title in zip(axes.flat, [y1, y2, y3, y4, y5, y6], titles):
-    bars = sns.barplot(x=x, y=y_data, palette=colors, ax=ax)
+    bars = sns.barplot(x=x, y=y_data, palette=nature_colors, ax=ax)
     add_annotations(ax, bars.patches, 9)
-    ax.get_xaxis().set_visible(False)
+    # ax.get_xaxis().set_visible(False)
     ax.set_title(title)
 
-handles = [plt.Rectangle((0, 0), 1, 1, color=color) for color in colors]
-fig.legend(handles, labels, loc='upper center', ncol=8, bbox_to_anchor=(0.5, 1.1))
+# handles = [plt.Rectangle((0, 0), 1, 1, color=color) for color in nature_colors]
+# fig.legend(handles, labels, loc='upper center',
+#            ncol=8, bbox_to_anchor=(0.5, 1.1))
 
-plt.tight_layout(rect=[0, 0, 1, 1.05])
-plt.savefig("/home/mohit/Documents/project/embed_tad/plots/moc_on_simulated_data_across_callers.png", dpi=600, bbox_inches="tight")
+    plt.tight_layout(rect=[0, 0, 1, 1.05])
+    plt.savefig("/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/moc_{title}on_simulated_data_across_callers.png",
+                dpi=600, bbox_inches="tight")

@@ -27,19 +27,23 @@ y5 = [91.998,	76.476,	52.932,	70.75,	87.992,	89.112,	83.84,	69.538]
 y6 = [91.9,	    77.074,	51.832,	60.244,	87.644,	86.78,	87.578,	68.606]
 
 colors = sns.color_palette("Paired", 8)
+nature_colors = ["#009e74",  "#0072b2",  "#f0e442", "#d55e00",
+                 "#56b3e9", "#e69f00",  "#cc79a7", "#000000"
+                 ]
 labels = ["EmbedTAD",	"IC Finder", "ClusterTAD",
           "CASPIAN", "TopDom",	"Armatus",	"HiCseg",	"Spectral"]
 TITLES = ["Overall", "4 noise level", "8 noise level",
           "12 noise level", "16 noise level", "20 noise level"]
 for y, title in zip([y1, y2, y3, y4, y5, y6], TITLES):
     fig, ax = plt.subplots(figsize=(6, 8))
-    bars = sns.barplot(x=x, y=y, palette=colors, ax=ax)
+    bars = sns.barplot(x=x, y=y, palette=nature_colors, ax=ax)
     add_annotations(ax, bars.patches)
-    plt.xticks(rotation=45, labels=labels, ticks=np.arange(0, len(labels), 1))
-    plt.xlabel("Caller")
-    plt.ylabel("MoC")
+    plt.xticks(rotation=75, labels=labels, ticks=np.arange(
+        0, len(labels), 1), fontsize=18)
+    plt.xlabel("Caller", fontsize=22)
+    plt.ylabel("MoC", fontsize=22)
     plt.tight_layout()
     title = title.replace(" ", "_").lower()
-    plt.savefig(f"/home/mohit/Documents/project/embed_tad/plots/insilico_{title}_moc_on_simulated_data_across_callers.png",
-                dpi=600, bbox_inches="tight")
+    plt.savefig(f"/home/hc0783.unt.ad.unt.edu/workspace/codebase/EmbedTAD/analysis/insilico_{title}_moc_on_simulated_data_across_callers.png",
+                dpi=300, bbox_inches="tight")
     plt.close('all')
