@@ -15,14 +15,8 @@ HPTAD/*
 *.png
 ./*.png
 *.jpg
-*.csv
-*.xlsx
 ./*/*.jpg
-./*/*.csv
-./*/*.xlsx
 ./__pycache__/*.py
-csv
-xlsx
 jpg
 !./test/test_heatmap.png
 run_on_gpu.sh
