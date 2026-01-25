@@ -23,5 +23,12 @@ Department of Computer Science and Engineering<br>
 University of North Texas<br>
 Email: Oluwatosin.Oluwadare@unt.edu <br>
 
+
 ***
 ### [OluwadareLab, University of North Texas](https://oluwadarelab.com/)
+
+<div style="background-color: black; padding: 20px; text-align: center; border-radius: 8px;">
+  <img src="https://webassets.unt.edu/assets/branding/unt-mobile-logo.svg" 
+       alt="UNT" 
+       style="max-width: 80%; height: auto; margin-top: 10px;">
+</div>
