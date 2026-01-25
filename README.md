@@ -1,4 +1,8 @@
+[![Hits](https://hits.sh/github.com/OluwadareLab/EmbedTAD.svg)](https://hits.sh/github.com/OluwadareLab/EmbedTAD/)
+
 # EmbedTAD: Using Graph Embedding and Unsupervised Learning to Identify TADs from High-Resolution Hi-C Data
+
+![EmbedTAD](https://github.com/OluwadareLab/EmbedTAD/blob/main/embedtad.jpg)
 
 ## Documentation
 Please see the [wiki](https://github.com/OluwadareLab/EmbedTAD/wiki) for an extensive documentation.
